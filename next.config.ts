@@ -1,6 +1,8 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  /** Imagen Docker mínima (`output` genera `.next/standalone`). */
+  output: "standalone",
   turbopack: {
     root: __dirname,
   },
