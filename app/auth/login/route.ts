@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { publicRedirectUrl } from "@/lib/public-url"
 import { createClient } from "@/lib/supabase/server"
 
 const schema = z.object({
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
     password: String(formData.get("password") ?? ""),
   })
   if (!payload.success) {
-    return NextResponse.redirect(new URL("/login?error=Credenciales invalidas", request.url))
+    return NextResponse.redirect(publicRedirectUrl(request, "/login?error=Credenciales invalidas"))
   }
 
   const { email, password } = payload.data
@@ -24,8 +25,8 @@ export async function POST(request: Request) {
   const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    return NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(error.message)}`, request.url))
+    return NextResponse.redirect(publicRedirectUrl(request, `/login?error=${encodeURIComponent(error.message)}`))
   }
 
-  return NextResponse.redirect(new URL("/dashboard", request.url))
+  return NextResponse.redirect(publicRedirectUrl(request, "/dashboard"))
 }

@@ -3,6 +3,7 @@ import { z } from "zod"
 
 import { createAdminClient } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
+import { publicRedirectUrl } from "@/lib/public-url"
 
 const schema = z.object({
   fullName: z.string().min(2, "Nombre invalido"),
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
     password: String(formData.get("password") ?? ""),
   })
   if (!payload.success) {
-    return NextResponse.redirect(new URL("/register?error=Datos de registro invalidos", request.url))
+    return NextResponse.redirect(publicRedirectUrl(request, "/register?error=Datos de registro invalidos"))
   }
 
   const { fullName, email, password } = payload.data
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
 
     if (!isEmailDeliveryIssue) {
       return NextResponse.redirect(
-        new URL(`/register?error=${encodeURIComponent(error.message)}`, request.url),
+        publicRedirectUrl(request, `/register?error=${encodeURIComponent(error.message)}`),
       )
     }
 
@@ -53,9 +54,9 @@ export async function POST(request: Request) {
 
     if (adminError || !adminData.user) {
       return NextResponse.redirect(
-        new URL(
+        publicRedirectUrl(
+          request,
           `/register?error=${encodeURIComponent(adminError?.message ?? "No se pudo crear la cuenta")}`,
-          request.url,
         ),
       )
     }
@@ -80,5 +81,5 @@ export async function POST(request: Request) {
     })
   }
 
-  return NextResponse.redirect(new URL("/onboarding", request.url))
+  return NextResponse.redirect(publicRedirectUrl(request, "/onboarding"))
 }
