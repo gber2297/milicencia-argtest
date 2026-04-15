@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { publicRedirectUrl } from "@/lib/public-url"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
-import { publicRedirectUrl } from "@/lib/public-url"
 
 const schema = z.object({
   fullName: z.string().min(2, "Nombre invalido"),
@@ -11,6 +11,11 @@ const schema = z.object({
   password: z.string().min(6, "La contrasena debe tener al menos 6 caracteres"),
 })
 
+/**
+ * Registro sin confirmación por email: creamos el usuario con la service role
+ * (`email_confirm: true`) e iniciamos sesión en el mismo request.
+ * Requiere `SUPABASE_SERVICE_ROLE_KEY` en el servidor.
+ */
 export async function POST(request: Request) {
   const formData = await request.formData()
   const payload = schema.safeParse({
@@ -24,62 +29,58 @@ export async function POST(request: Request) {
 
   const { fullName, email, password } = payload.data
 
-  const supabase = await createClient()
-  let { data, error } = await supabase.auth.signUp({
+  const admin = createAdminClient()
+  const { data: created, error: createError } = await admin.auth.admin.createUser({
     email,
     password,
-    options: {
-      data: { full_name: fullName },
-    },
+    email_confirm: true,
+    user_metadata: { full_name: fullName },
   })
 
-  if (error) {
-    const isEmailDeliveryIssue = error.message
-      .toLowerCase()
-      .includes("error sending confirmation email")
+  if (createError) {
+    const msg = createError.message.toLowerCase()
+    const duplicate =
+      msg.includes("already been registered") ||
+      msg.includes("already registered") ||
+      msg.includes("user already exists") ||
+      createError.status === 422
 
-    if (!isEmailDeliveryIssue) {
-      return NextResponse.redirect(
-        publicRedirectUrl(request, `/register?error=${encodeURIComponent(error.message)}`),
-      )
-    }
-
-    const admin = createAdminClient()
-    const { data: adminData, error: adminError } = await admin.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: { full_name: fullName },
-    })
-
-    if (adminError || !adminData.user) {
+    if (duplicate) {
       return NextResponse.redirect(
         publicRedirectUrl(
           request,
-          `/register?error=${encodeURIComponent(adminError?.message ?? "No se pudo crear la cuenta")}`,
+          "/register?error=" + encodeURIComponent("Ya existe una cuenta con este email. Inicia sesion."),
         ),
       )
     }
 
-    data = { ...data, user: adminData.user }
-    error = null
-
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-    if (signInError) {
-      return NextResponse.redirect(
-        new URL("/login?error=Cuenta creada. Inicia sesion para continuar.", request.url),
-      )
-    }
+    return NextResponse.redirect(
+      publicRedirectUrl(request, `/register?error=${encodeURIComponent(createError.message)}`),
+    )
   }
 
-  if (data.user) {
-    await supabase.from("profiles").upsert({
-      id: data.user.id,
-      email: data.user.email,
-      full_name: fullName,
-      role: "user",
-    })
+  if (!created.user) {
+    return NextResponse.redirect(publicRedirectUrl(request, "/register?error=No se pudo crear la cuenta"))
   }
+
+  const supabase = await createClient()
+  const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+
+  if (signInError) {
+    return NextResponse.redirect(
+      publicRedirectUrl(
+        request,
+        "/login?error=" + encodeURIComponent("Cuenta creada. Inicia sesion para continuar."),
+      ),
+    )
+  }
+
+  await supabase.from("profiles").upsert({
+    id: created.user.id,
+    email: created.user.email,
+    full_name: fullName,
+    role: "user",
+  })
 
   return NextResponse.redirect(publicRedirectUrl(request, "/onboarding"))
 }
