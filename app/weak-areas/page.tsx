@@ -52,24 +52,25 @@ const WeakAreasPage = async () => {
       <div className="mt-6 space-y-2">
         {hasData ? (
           <>
-            {visible.map((row: { category_name: string; wrong_count: number; category_id: string | null }) => (
-              <div
-                key={row.category_name}
-                className="flex flex-col gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/30 p-4 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <p className="font-medium text-zinc-900">{row.category_name}</p>
-                <div className="flex flex-wrap items-center gap-3 sm:justify-end">
-                  <p className="text-sm text-zinc-600">
-                    <span className="font-medium tabular-nums text-zinc-800">{row.wrong_count}</span> fallos
-                  </p>
-                  <Link href={row.category_id ? `/practice/session?categoryId=${row.category_id}` : "/practice/session"}>
-                    <Button variant="outline" className="w-full sm:w-auto">
-                      Practicar
-                    </Button>
-                  </Link>
+            {visible.map(
+              (row: { category_name: string | null; wrong_count: number; category_id: string | null }, index: number) => (
+                <div
+                  key={`${row.category_id ?? "null"}-${row.category_name ?? index}`}
+                  className="flex flex-col gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/30 p-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <p className="font-medium text-zinc-900">{row.category_name ?? "Sin categoria"}</p>
+                  <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+                    <p className="text-sm text-zinc-600">
+                      <span className="font-medium tabular-nums text-zinc-800">{row.wrong_count}</span> fallos
+                    </p>
+                    <Link href={row.category_id ? `/practice/session?categoryId=${row.category_id}` : "/practice/session"}>
+                      <Button variant="outline" className="w-full sm:w-auto">
+                        Practicar
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             {hasMoreLocked && (
               <div className="flex flex-col items-center justify-between gap-3 rounded-xl border border-dashed border-amber-200/90 bg-amber-50/50 p-4 sm:flex-row">
                 <div className="flex items-center gap-2 text-sm font-medium text-amber-950">

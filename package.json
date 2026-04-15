@@ -25,7 +25,9 @@
     "review:export-csv": "node scripts/export-review-csv.mjs",
     "review:apply-csv": "node scripts/apply-review-csv.mjs",
     "import:questions:dry": "node scripts/import-questions-supabase.mjs --apply=false",
-    "import:questions:apply": "node scripts/import-questions-supabase.mjs --apply=true"
+    "import:questions:apply": "node scripts/import-questions-supabase.mjs --apply=true",
+    "backfill:categories": "node scripts/backfill-question-categories.mjs --apply=true",
+    "backfill:categories:dry": "node scripts/backfill-question-categories.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

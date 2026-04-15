@@ -178,6 +178,14 @@ export function OnboardingWizard({ categories }: OnboardingWizardProps) {
           <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">Paso 4 de 4 · Opcional</p>
           <h2 className="mt-2 text-xl font-semibold text-zinc-900">¿Qué te cuesta más?</h2>
           <p className="mt-1 text-sm text-zinc-600">Elegí una o varias. Podés cambiar esto después.</p>
+          {categories.length === 0 ? (
+            <p className="mt-4 rounded-xl border border-amber-200/90 bg-amber-50/80 px-4 py-3 text-sm text-amber-950">
+              No hay categorías cargadas en el sistema. En Supabase ejecutá el <code className="rounded bg-white/80 px-1">INSERT</code> de
+              categorías de <code className="rounded bg-white/80 px-1">supabase/seed.sql</code> (inicio del archivo). Si ya importaste
+              preguntas antes, corrés también{" "}
+              <code className="rounded bg-white/80 px-1">node scripts/backfill-question-categories.mjs --apply=true</code>.
+            </p>
+          ) : null}
           <div className="mt-4 flex flex-wrap gap-2">
             {categories.slice(0, 12).map((c) => {
               const active = selectedSlugs.includes(c.slug)
