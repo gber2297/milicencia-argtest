@@ -99,12 +99,12 @@ async function sendFirstParty(input: {
       reason?: string
       detail?: string
       hint?: string
+      code?: string
     }
-    if (data.accepted === false && analyticsDebug()) {
-      console.warn("[telemetry]", data.reason, data.detail ?? "", data.hint ?? "")
-    }
-    if (!res.ok && analyticsDebug()) {
-      console.warn("[telemetry] HTTP", res.status, data)
+    if (!res.ok) {
+      console.warn("[telemetry]", res.status, data)
+    } else if (data.accepted === false && analyticsDebug()) {
+      console.warn("[telemetry]", data.reason, data.detail ?? "", data.hint ?? "", data.code ?? "")
     }
   } catch (e) {
     if (analyticsDebug()) {
