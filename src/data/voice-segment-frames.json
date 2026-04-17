@@ -1,0 +1,12 @@
+{
+  "fps": 30,
+  "voicePlaybackRate": 1,
+  "voiceSegmentFrames": [
+    109,
+    97,
+    85,
+    75,
+    95
+  ],
+  "ctaVoiceFrames": 93
+}

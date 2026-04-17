@@ -1,0 +1,104 @@
+{
+  "videoType": "datos_curiosos",
+  "channel": "tiktok",
+  "theme": "narrative_datos_curiosos",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": true,
+    "url": "/audio/music.wav"
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "Practica con 'Mi Licencia' y ¡a aprobar!"
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "prepárate bien",
+    "subtitle": "no seas parte del 10% que no aprueba",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 173,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7172774/pexels-photo-7172774.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿sabías que el 90% de los exámenes teóricos se aprueban a la primera?",
+      "voiceText": "¿Sabías que el noventa por ciento de los exámenes teóricos se aprueban a la primera?"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 134,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7876456/pexels-photo-7876456.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "pero... ¿qué pasa con el 10% que no lo logra?",
+      "voiceText": "Pero, ¿qué pasa con el diez por ciento que no lo logra?",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 324,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/30749031/pexels-photo-30749031.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "muchas veces es por no entender bien las normas de tránsito. repasar las señales es clave. ¡no dejes que la presión te juegue en contra!",
+      "voiceText": "Muchas veces es por no entender bien las normas de tránsito. Repasar las señales es clave. ¡No dejes que la presión te juegue en contra!"
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 122,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7691737/pexels-photo-7691737.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "practica con 'mi licencia' y ¡a aprobar!",
+      "voiceText": "Practica con 'Mi Licencia' y ¡a aprobar!"
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6958524/pexels-photo-6958524.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "prepárate bien",
+      "voiceText": "no seas parte del 10% que no aprueba"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T13:29:26.858Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  },
+  "audio": {
+    "voicePlaybackRate": 1,
+    "voiceSegmentFrames": [
+      173,
+      134,
+      324,
+      122
+    ],
+    "ctaVoiceFrames": 0,
+    "voiceSegmentSrcs": [
+      "/audio/voice-0.mp3",
+      "/audio/voice-1.mp3",
+      "/audio/voice-2.mp3",
+      "/audio/voice-3.mp3"
+    ],
+    "musicSrc": "/audio/music.wav"
+  }
+}

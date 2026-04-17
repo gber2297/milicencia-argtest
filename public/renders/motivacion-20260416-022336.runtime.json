@@ -1,0 +1,104 @@
+{
+  "videoType": "motivacion",
+  "channel": "tiktok",
+  "theme": "narrative_motivacion",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": false,
+    "url": ""
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "Descargá \"Mi Licencia\" y empezá a practicar hoy mismo."
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "¡Tu licencia te espera!",
+    "subtitle": "Practica y logra tu objetivo.",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 110,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683990/pexels-photo-6683990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿sientes miedo al sacar tu licencia?",
+      "voiceText": "¿Sentís miedo al sacar tu licencia?"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 198,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/8410833/pexels-photo-8410833.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "No estás solo, muchos pasamos por lo mismo. Pero hay formas de superarlo.",
+      "voiceText": "No estás solo, muchos pasamos por lo mismo. Pero hay formas de superarlo.",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 326,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/32764502/pexels-photo-32764502.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "La clave está en practicar. Usa nuestra app \"Mi Licencia\" para estudiar y tomar confianza. Cada día que practiques te acercas más a tu sueño.",
+      "voiceText": "La clave está en practicar. Usá nuestra app \"Mi Licencia\" para estudiar y tomar confianza. Cada día que practiques te acercás más a tu sueño."
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 142,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/5082580/pexels-photo-5082580.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "Descargá \"Mi Licencia\" y empezá a practicar hoy mismo.",
+      "voiceText": "Descargá \"Mi Licencia\" y empezá a practicar hoy mismo."
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7144202/pexels-photo-7144202.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¡Tu licencia te espera!",
+      "voiceText": "Practica y logra tu objetivo."
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T00:20:28.733Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  },
+  "audio": {
+    "voicePlaybackRate": 1,
+    "voiceSegmentSrcs": [
+      "/audio/voice-0.mp3",
+      "/audio/voice-1.mp3",
+      "/audio/voice-2.mp3",
+      "/audio/voice-3.mp3"
+    ],
+    "musicSrc": "/audio/music.wav",
+    "voiceSegmentFrames": [
+      110,
+      198,
+      326,
+      142
+    ],
+    "ctaVoiceFrames": 0
+  }
+}

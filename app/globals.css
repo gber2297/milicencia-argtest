@@ -3,6 +3,7 @@
 
 @source "../app";
 @source "../components";
+@source "../remotion";
 
 :root {
   --background: #f8fafc;
@@ -14,6 +15,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {

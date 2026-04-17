@@ -1,0 +1,117 @@
+{
+  "videoType": "marketing",
+  "channel": "tiktok",
+  "theme": "marketing_mi_licencia",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": false,
+    "url": ""
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "practica ahora",
+    "variant": "primary",
+    "ctaVoiceText": "Practica ahora con Mi Licencia y prepárate para el examen de manejo."
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "Tu teórico, sin vueltas",
+    "subtitle": "Simulacros ilimitados · Argentina",
+    "backgroundUrl": "https://images.pexels.com/photos/6958578/pexels-photo-6958578.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
+  },
+  "scenes": [
+    {
+      "id": "m1_hook",
+      "type": "hook",
+      "durationInFrames": 72,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/5025491/pexels-photo-5025491.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "te da ansiedad el examen de manejo?",
+      "voiceText": "¿Te da ansiedad el examen de manejo?"
+    },
+    {
+      "id": "m2_question",
+      "type": "question",
+      "durationInFrames": 84,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7989073/pexels-photo-7989073.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿qué tal si te dijera que podés practicar?",
+      "voiceText": "¿Qué tal si te dijera que podés practicar?"
+    },
+    {
+      "id": "m3_pause",
+      "type": "pause",
+      "durationInFrames": 54,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/9544518/pexels-photo-9544518.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "...",
+      "voiceText": "...",
+      "highlightText": "···"
+    },
+    {
+      "id": "m4_expl",
+      "type": "explanation",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/13251222/pexels-photo-13251222.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "con Mi Licencia podés hacer simulacros y ver cómo es el examen.",
+      "voiceText": "Con Mi Licencia podés hacer simulacros y ver cómo es el examen."
+    },
+    {
+      "id": "m5_reveal",
+      "type": "reveal",
+      "durationInFrames": 102,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7539641/pexels-photo-7539641.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "dile adiós a la ansiedad y sentite seguro al volante.",
+      "voiceText": "Dile adiós a la ansiedad y sentite seguro al volante.",
+      "options": [
+        {
+          "id": "a",
+          "label": "A) Sigo sin practicar"
+        },
+        {
+          "id": "b",
+          "label": "B) Uso simulacros reales"
+        },
+        {
+          "id": "c",
+          "label": "C) Solo leo el manual"
+        }
+      ],
+      "correctOptionId": "b"
+    },
+    {
+      "id": "m6_cta",
+      "type": "cta",
+      "durationInFrames": 78,
+      "backgroundType": "gradient",
+      "text": "practica ahora",
+      "voiceText": "Practica ahora con Mi Licencia y prepárate para el examen de manejo."
+    },
+    {
+      "id": "m7_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6958578/pexels-photo-6958578.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "Tu teórico, sin vueltas",
+      "voiceText": "Simulacros ilimitados · Argentina"
+    }
+  ],
+  "meta": {
+    "brief": "Me da ansiedad el examen de manejo",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-15T23:43:12.192Z"
+  }
+}

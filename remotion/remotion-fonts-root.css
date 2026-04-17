@@ -1,0 +1,10 @@
+/**
+ * Solo fuentes + variables que en Next vienen de `next/font` y no existen en el iframe del Player.
+ * Importar en StudioPreview junto con `app/globals.css` (Tailwind ya cargado).
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --font-geist-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}

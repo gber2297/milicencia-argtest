@@ -1,6 +1,9 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 
+import { isAnalyticsDashboardEnabled } from "@/lib/analytics/env-analytics-dashboard"
+import { isStudioEnabled } from "@/lib/studio/env-studio"
+
 const PROTECTED = [
   "/dashboard",
   "/onboarding",
@@ -16,6 +19,27 @@ const PROTECTED = [
 const AUTH_ONLY = ["/login", "/register"]
 
 export async function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+  if (
+    !isStudioEnabled() &&
+    (pathname.startsWith("/studio") || pathname.startsWith("/api/studio"))
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          "Video Studio está desactivado en este entorno (p. ej. build de producción). Añadí NEXT_PUBLIC_STUDIO_ENABLED=true en .env.local y reiniciá el servidor.",
+        code: "STUDIO_DISABLED",
+      },
+      { status: 403 },
+    )
+  }
+
+  if (!isAnalyticsDashboardEnabled() && pathname.startsWith("/dev/analytics")) {
+    const home = request.nextUrl.clone()
+    home.pathname = "/"
+    return NextResponse.redirect(home)
+  }
+
   let response = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -37,7 +61,6 @@ export async function proxy(request: NextRequest) {
     },
   )
 
-  const pathname = request.nextUrl.pathname
   const isProtected = PROTECTED.some((route) => pathname.startsWith(route))
   const isAuthPage = AUTH_ONLY.some((route) => pathname.startsWith(route))
 

@@ -1,0 +1,87 @@
+{
+  "videoType": "motivacion",
+  "channel": "tiktok",
+  "theme": "narrative_motivacion",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": false,
+    "url": ""
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "Descargá la app y comenzá a practicar hoy mismo!"
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "¡prepárate para aprobar!",
+    "subtitle": "tu licencia está a un clic",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 66,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683990/pexels-photo-6683990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿te da miedo el examen de manejo?",
+      "voiceText": "¿Te da miedo el examen de manejo?"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 78,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6684505/pexels-photo-6684505.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "no estás solo, todos lo hemos sentido. ¡Pero hay una manera de superarlo!",
+      "voiceText": "No estás solo, todos lo hemos sentido. ¡Pero hay una manera de superarlo!",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/32764502/pexels-photo-32764502.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "practicar con mi licencia te da la confianza que necesitas. además, puedes aprender a tu ritmo y resolver tus dudas.",
+      "voiceText": "Practicar con Mi Licencia te da la confianza que necesitas. Además, puedes aprender a tu ritmo y resolver tus dudas."
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 78,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/5082580/pexels-photo-5082580.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "descargá la app y comenzá a practicar hoy mismo!",
+      "voiceText": "Descargá la app y comenzá a practicar hoy mismo!"
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7144202/pexels-photo-7144202.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¡prepárate para aprobar!",
+      "voiceText": "tu licencia está a un clic"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T00:06:51.739Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  }
+}

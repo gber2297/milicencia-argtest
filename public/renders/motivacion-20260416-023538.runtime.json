@@ -1,0 +1,104 @@
+{
+  "videoType": "motivacion",
+  "channel": "tiktok",
+  "theme": "narrative_motivacion",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": false,
+    "url": ""
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "No esperes más, da el primer paso hacia tu licencia y descarga la app hoy mismo. ¡Tu futuro te espera!"
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "preparado para el examen",
+    "subtitle": "tu licencia está a un paso",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 233,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683990/pexels-photo-6683990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¡tu licencia está más cerca de lo que crees!",
+      "voiceText": "¿Sabías que la mayoría de las personas sienten ansiedad antes del examen teórico? ¡No estás solo!"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 206,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/9544518/pexels-photo-9544518.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "Imagina poder manejar con confianza y disfrutar de la libertad que eso trae. Pero antes, hay un desafío...",
+      "voiceText": "La emoción de obtener tu licencia puede parecer abrumadora, pero no te preocupes, ¡hay una solución!",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 294,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/33210882/pexels-photo-33210882.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "Con la app de 'Mi Licencia', podrás practicar y repasar todo lo que necesitas saber. ¡Estudia a tu ritmo y enfrenta el examen con seguridad!",
+      "voiceText": "Nuestra app está diseñada para ayudarte a estudiar de manera eficaz, con preguntas reales y simulaciones del examen. ¡Prepárate para brillar!"
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 241,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "descarga la app y comienza a practicar ahora mismo",
+      "voiceText": "No esperes más, da el primer paso hacia tu licencia y descarga la app hoy mismo. ¡Tu futuro te espera!"
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683934/pexels-photo-6683934.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "preparado para el examen",
+      "voiceText": "tu licencia está a un paso"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T00:29:08.491Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  },
+  "audio": {
+    "voicePlaybackRate": 1,
+    "voiceSegmentSrcs": [
+      "/audio/voice-0.mp3",
+      "/audio/voice-1.mp3",
+      "/audio/voice-2.mp3",
+      "/audio/voice-3.mp3"
+    ],
+    "musicSrc": "/audio/music.wav",
+    "voiceSegmentFrames": [
+      233,
+      206,
+      294,
+      241
+    ],
+    "ctaVoiceFrames": 0
+  }
+}

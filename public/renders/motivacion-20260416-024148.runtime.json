@@ -1,0 +1,104 @@
+{
+  "videoType": "motivacion",
+  "channel": "tiktok",
+  "theme": "narrative_motivacion",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": true,
+    "url": "/audio/music.wav"
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "Descarga Mi Licencia y comienza a practicar hoy mismo."
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "tu futuro en la ruta",
+    "subtitle": "¡prepárate con confianza!",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 121,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683990/pexels-photo-6683990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿sientes ansiedad por el examen de manejo?",
+      "voiceText": "¿Sientes ansiedad por el examen de manejo?"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 277,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/14016083/pexels-photo-14016083.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¡No estás solo! Muchos enfrentan ese mismo desafío, pero hay formas de superarlo. ¿Quieres saber cómo?",
+      "voiceText": "¡No estás solo! Muchos enfrentan ese mismo desafío, pero hay formas de superarlo. ¿Quieres saber cómo?",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 393,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/33210882/pexels-photo-33210882.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "La clave está en la preparación. Practicar con la app de Mi Licencia te ayudará a sentirte más confiado y seguro. Cada vez que estudias, estás un paso más cerca de alcanzar tu objetivo.",
+      "voiceText": "La clave está en la preparación. Practicar con la app de Mi Licencia te ayudará a sentirte más confiado y seguro. Cada vez que estudias, estás un paso más cerca de alcanzar tu objetivo."
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 138,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "Descarga Mi Licencia y comienza a practicar hoy mismo.",
+      "voiceText": "Descarga Mi Licencia y comienza a practicar hoy mismo."
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 92,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/9544518/pexels-photo-9544518.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "tu futuro en la ruta",
+      "voiceText": "¡prepárate con confianza!"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T00:41:44.113Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  },
+  "audio": {
+    "voicePlaybackRate": 1,
+    "voiceSegmentFrames": [
+      121,
+      277,
+      393,
+      138
+    ],
+    "ctaVoiceFrames": 0,
+    "voiceSegmentSrcs": [
+      "/audio/voice-0.mp3",
+      "/audio/voice-1.mp3",
+      "/audio/voice-2.mp3",
+      "/audio/voice-3.mp3"
+    ],
+    "musicSrc": "/audio/music.wav"
+  }
+}

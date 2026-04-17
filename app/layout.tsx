@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AnalyticsPageViews } from "@/components/analytics/analytics-page-views";
+import { WebAnalytics } from "@/components/analytics/web-analytics";
 import { TopNav } from "@/components/app/top-nav";
 
 const geistSans = Geist({
@@ -24,11 +26,15 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full overflow-x-hidden antialiased`}
     >
-      <body className="min-h-full text-zinc-900">
+      <body className="min-h-full overflow-x-hidden text-zinc-900">
+        <WebAnalytics />
+        <AnalyticsPageViews />
         <TopNav />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+        <main className="mx-auto min-w-0 w-full max-w-6xl flex-1 overflow-x-hidden px-3 py-6 sm:px-6 sm:py-8">
+          {children}
+        </main>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card"
 export default function Home() {
   return (
     <div className="space-y-14 pb-12 sm:space-y-16 sm:pb-16">
-      <section className="relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-slate-900 via-blue-900 to-blue-800 px-6 py-12 text-white shadow-xl shadow-blue-950/20 sm:px-10 sm:py-14 md:px-12 md:py-16">
+      <section className="relative min-w-0 overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-slate-900 via-blue-900 to-blue-800 px-4 py-10 text-white shadow-xl shadow-blue-950/20 sm:rounded-3xl sm:px-10 sm:py-14 md:px-12 md:py-16">
         <div
           className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-sky-400/20 blur-3xl"
           aria-hidden
@@ -20,10 +20,10 @@ export default function Home() {
           <Sparkles className="size-3.5 text-amber-300/90" aria-hidden />
           MiLicencia Argentina Test 🇦🇷
         </p>
-        <h1 className="relative max-w-2xl text-3xl font-bold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl md:leading-[1.1]">
+        <h1 className="relative max-w-2xl text-balance text-2xl font-bold leading-[1.2] tracking-tight sm:text-4xl md:text-5xl md:leading-[1.1]">
           Practica el teorico de manejo y aproba mas rapido
         </h1>
-        <p className="relative mt-4 max-w-lg text-base leading-relaxed text-blue-100/95 sm:text-lg">
+        <p className="relative mt-4 max-w-lg text-sm leading-relaxed text-blue-100/95 sm:text-lg">
           Simulacros realistas, feedback instantaneo y analisis de areas debiles para estudiar mejor.
         </p>
         <div className="relative mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

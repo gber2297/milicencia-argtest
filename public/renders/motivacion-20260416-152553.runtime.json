@@ -1,0 +1,104 @@
+{
+  "videoType": "motivacion",
+  "channel": "tiktok",
+  "theme": "narrative_motivacion",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": true,
+    "url": "/audio/music.wav"
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary",
+    "ctaVoiceText": "Descarga la app y comienza a estudiar hoy mismo. ¡Tu licencia te espera!"
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "¡No dejes que la ansiedad te frene!",
+    "subtitle": "Practica y logra tu licencia",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "nar_hook",
+      "type": "hook",
+      "durationInFrames": 107,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/6683990/pexels-photo-6683990.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¿ansioso por el examen de manejo? 😰",
+      "voiceText": "¿Ansioso por el examen de manejo?"
+    },
+    {
+      "id": "nar_retention",
+      "type": "pause",
+      "durationInFrames": 204,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/7776998/pexels-photo-7776998.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "no estás solo, muchos sienten lo mismo... pero hay una forma de convertir la ansiedad en confianza.",
+      "voiceText": "No estás solo, muchos sienten lo mismo... pero hay una forma de convertir la ansiedad en confianza.",
+      "highlightText": "···"
+    },
+    {
+      "id": "nar_content",
+      "type": "explanation",
+      "durationInFrames": 363,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/16763244/pexels-photo-16763244.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "la clave está en practicar. usa la app de 'Mi Licencia' para simular el examen y familiarizarte con las preguntas. ¡Cuanto más practiques, más seguro te sentirás!",
+      "voiceText": "La clave está en practicar. Usa la app de 'Mi Licencia' para simular el examen y familiarizarte con las preguntas. ¡Cuanto más practiques, más seguro te sentirás!"
+    },
+    {
+      "id": "nar_cta",
+      "type": "cta",
+      "durationInFrames": 192,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/3585088/pexels-photo-3585088.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "descarga la app y comienza a estudiar hoy mismo. ¡tu licencia te espera! 🚗💨",
+      "voiceText": "Descarga la app y comienza a estudiar hoy mismo. ¡Tu licencia te espera!"
+    },
+    {
+      "id": "nar_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "image",
+      "backgroundUrl": "https://images.pexels.com/photos/9544518/pexels-photo-9544518.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+      "text": "¡No dejes que la ansiedad te frene!",
+      "voiceText": "Practica y logra tu licencia"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T13:25:48.710Z",
+    "audioLayout": "narrative_four",
+    "voiceSegmentCount": 4
+  },
+  "audio": {
+    "voicePlaybackRate": 1,
+    "voiceSegmentFrames": [
+      107,
+      204,
+      363,
+      192
+    ],
+    "ctaVoiceFrames": 0,
+    "voiceSegmentSrcs": [
+      "/audio/voice-0.mp3",
+      "/audio/voice-1.mp3",
+      "/audio/voice-2.mp3",
+      "/audio/voice-3.mp3"
+    ],
+    "musicSrc": "/audio/music.wav"
+  }
+}

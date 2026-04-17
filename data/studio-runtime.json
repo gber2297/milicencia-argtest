@@ -1,0 +1,134 @@
+{
+  "videoType": "quiz",
+  "channel": "tiktok",
+  "theme": "examen_conducir_argentina",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voiceSpeed": 1,
+  "music": {
+    "enabled": false,
+    "url": ""
+  },
+  "branding": {
+    "appName": "MiLicencia 🇦🇷",
+    "logoUrl": "/logo.png",
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#0f172a",
+    "accentColor": "#22c55e",
+    "fontFamily": "Inter, system-ui, sans-serif"
+  },
+  "cta": {
+    "text": "Practicá gratis en la APP",
+    "variant": "primary"
+  },
+  "finalCard": {
+    "type": "image",
+    "title": "Pasá el teórico más rápido",
+    "subtitle": "Simulacros reales · gratis hoy",
+    "backgroundUrl": ""
+  },
+  "scenes": [
+    {
+      "id": "s1_hook",
+      "type": "hook",
+      "durationInFrames": 54,
+      "backgroundType": "gradient",
+      "text": "El 80% la pifia acá",
+      "voiceText": "El 80% la pifia acá"
+    },
+    {
+      "id": "s2_question",
+      "type": "question",
+      "durationInFrames": 84,
+      "backgroundType": "gradient",
+      "text": "Señales horizontales son:",
+      "voiceText": "Señales horizontales son:"
+    },
+    {
+      "id": "s3_options",
+      "type": "options",
+      "durationInFrames": 66,
+      "backgroundType": "gradient",
+      "text": "",
+      "voiceText": "Mirá las opciones.",
+      "options": [
+        {
+          "id": "a",
+          "label": "A) Luces"
+        },
+        {
+          "id": "b",
+          "label": "B) Pintadas en calzada"
+        },
+        {
+          "id": "c",
+          "label": "C) Carteles"
+        }
+      ]
+    },
+    {
+      "id": "s4_pause",
+      "type": "pause",
+      "durationInFrames": 54,
+      "backgroundType": "gradient",
+      "text": "Pensalo bien…",
+      "voiceText": "Pensalo bien…",
+      "highlightText": "···"
+    },
+    {
+      "id": "s5_reveal",
+      "type": "reveal",
+      "durationInFrames": 72,
+      "backgroundType": "gradient",
+      "text": "Correcto",
+      "voiceText": "La B. Pintadas en calzada",
+      "options": [
+        {
+          "id": "a",
+          "label": "A) Luces"
+        },
+        {
+          "id": "b",
+          "label": "B) Pintadas en calzada"
+        },
+        {
+          "id": "c",
+          "label": "C) Carteles"
+        }
+      ],
+      "correctOptionId": "b"
+    },
+    {
+      "id": "s6_expl",
+      "type": "explanation",
+      "durationInFrames": 96,
+      "backgroundType": "gradient",
+      "text": "Repasá el temario en la app: simulacros ilimitados y feedback al instante.",
+      "voiceText": "Repasá el temario en la app: simulacros ilimitados y feedback al instante."
+    },
+    {
+      "id": "s7_cta",
+      "type": "cta",
+      "durationInFrames": 54,
+      "backgroundType": "gradient",
+      "text": "Practicá gratis en la APP",
+      "voiceText": "Practicá gratis en la APP"
+    },
+    {
+      "id": "s8_final",
+      "type": "final_card",
+      "durationInFrames": 96,
+      "backgroundType": "gradient",
+      "text": "Pasá el teórico más rápido",
+      "voiceText": "Simulacros reales · gratis hoy"
+    }
+  ],
+  "meta": {
+    "brief": "placeholder marketing",
+    "generationMode": "full_ai",
+    "createdAt": "2026-04-16T13:32:30.718Z",
+    "questionId": "9b33f039-bfda-477b-8b6d-382a9a45139f",
+    "questionSource": "database"
+  }
+}
