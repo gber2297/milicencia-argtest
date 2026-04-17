@@ -16,15 +16,37 @@ function analyticsEnabled() {
   return process.env.NEXT_PUBLIC_ANALYTICS_ENABLED !== "false"
 }
 
+function isLocalhostHostname(hostname: string) {
+  if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1") return true
+  if (hostname.endsWith(".local")) return true
+  return false
+}
+
 /**
- * Supabase solo recibe eventos del sitio en producción (build `next build` / Vercel).
- * En `next dev` no se envía nada → no mezclás tu navegación local con usuarios reales.
- * Para probar el pipeline contra tu DB: NEXT_PUBLIC_ANALYTICS_CAPTURE_DEV=true en .env.local
+ * Envío a Supabase solo cuando el usuario no está en localhost.
+ * No usamos `NODE_ENV === "production"` en el cliente: en algunos despliegues el bundle
+ * no lo refleja bien y el tracking queda en silencio.
+ *
+ * Opcional: `NEXT_PUBLIC_ANALYTICS_ALLOWED_HOSTS=midominio.com,www.midominio.com`
+ * (si está vacío, cualquier host que no sea localhost vale, p. ej. Vercel preview).
+ *
+ * Forzar envío en local: `NEXT_PUBLIC_ANALYTICS_CAPTURE_DEV=true`
  */
 function captureFirstPartyToSupabase() {
   if (!analyticsEnabled()) return false
   if (process.env.NEXT_PUBLIC_ANALYTICS_CAPTURE_DEV === "true") return true
-  return process.env.NODE_ENV === "production"
+  if (typeof window === "undefined") return false
+
+  const host = window.location.hostname
+  if (isLocalhostHostname(host)) return false
+
+  const allowed = process.env.NEXT_PUBLIC_ANALYTICS_ALLOWED_HOSTS?.trim()
+  if (allowed) {
+    const parts = allowed.split(",").map((s) => s.trim()).filter(Boolean)
+    return parts.some((p) => host === p || host.endsWith(`.${p}`))
+  }
+
+  return true
 }
 
 function analyticsDebug() {
@@ -48,7 +70,6 @@ function getSessionId(): string | undefined {
   }
 }
 
-/** No usar `/api/analytics/*`: muchos adblockers lo bloquean. */
 const TELEMETRY_URL = "/api/telemetry/event"
 
 async function sendFirstParty(input: {
@@ -71,6 +92,7 @@ async function sendFirstParty(input: {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
       keepalive: true,
+      credentials: "same-origin",
     })
     const data = (await res.json().catch(() => ({}))) as {
       accepted?: boolean
