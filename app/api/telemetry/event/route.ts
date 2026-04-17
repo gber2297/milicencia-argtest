@@ -105,6 +105,10 @@ export async function POST(req: Request) {
         error.message.includes("does not exist") ||
         error.code === "42P01"
 
+      const rlsBlocked =
+        error.code === "42501" &&
+        (error.message.includes("row-level security") || error.message.includes("RLS"))
+
       return NextResponse.json(
         {
           ok: false,
@@ -114,9 +118,11 @@ export async function POST(req: Request) {
           code: error.code,
           hint: missingTable
             ? "Ejecutá supabase/migrations/004_web_analytics.sql en el proyecto Supabase que usa NEXT_PUBLIC_SUPABASE_URL."
-            : error.message.includes("JWT") || error.message.includes("Invalid API key")
-              ? "Revisá que SUPABASE_SERVICE_ROLE_KEY sea la service_role del mismo proyecto que la URL."
-              : undefined,
+            : rlsBlocked
+              ? "Aplicá supabase/migrations/005_web_analytics_rls_insert.sql en Supabase. Si sigue fallando, revisá que SUPABASE_SERVICE_ROLE_KEY sea la clave service_role (no anon) del mismo proyecto."
+              : error.message.includes("JWT") || error.message.includes("Invalid API key")
+                ? "Revisá que SUPABASE_SERVICE_ROLE_KEY sea la service_role del mismo proyecto que la URL."
+                : undefined,
         },
         { status: 503 },
       )
