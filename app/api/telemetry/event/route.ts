@@ -119,7 +119,7 @@ export async function POST(req: Request) {
           hint: missingTable
             ? "Ejecutá supabase/migrations/004_web_analytics.sql en el proyecto Supabase que usa NEXT_PUBLIC_SUPABASE_URL."
             : rlsBlocked
-              ? "Aplicá supabase/migrations/005_web_analytics_rls_insert.sql en Supabase. Si sigue fallando, revisá que SUPABASE_SERVICE_ROLE_KEY sea la clave service_role (no anon) del mismo proyecto."
+              ? "Aplicá supabase/migrations/006_web_analytics_server_only.sql en Supabase (desactiva RLS y deja INSERT solo a service_role). Si el error pasa a «permission denied», la key en Vercel no es la service_role de ese proyecto."
               : error.message.includes("JWT") || error.message.includes("Invalid API key")
                 ? "Revisá que SUPABASE_SERVICE_ROLE_KEY sea la service_role del mismo proyecto que la URL."
                 : undefined,
