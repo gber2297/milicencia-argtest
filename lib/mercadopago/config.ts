@@ -55,7 +55,9 @@ function getTestAmountOverrideArs(payerEmail: string | undefined): number | null
  */
 export function getAutoRecurringForPlan(plan: MercadoPagoPlanKey, payerEmail?: string) {
   const override = getTestAmountOverrideArs(payerEmail)
-  const amount = override ?? getPlanAmountArs(plan)
+  const base = getPlanAmountArs(plan)
+  const raw = override ?? base
+  const amount = Number.isFinite(raw) && raw > 0 ? raw : base
   if (plan === "weekly") {
     return {
       frequency: 7,

@@ -12,6 +12,18 @@ function parsePlan(raw: unknown): MercadoPagoPlanKey | null {
 }
 
 export async function POST(request: Request) {
+  try {
+    return await postMpSubscribe(request)
+  } catch (e) {
+    console.error("[mp-subscribe] unhandled", e)
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Error interno al iniciar el checkout" },
+      { status: 500 },
+    )
+  }
+}
+
+async function postMpSubscribe(request: Request) {
   const token = getMercadoPagoAccessToken()
   if (!token) {
     return NextResponse.json(
@@ -71,6 +83,13 @@ export async function POST(request: Request) {
     )
   }
 
+  let redirectTo: string
+  try {
+    redirectTo = new URL(created.init_point).href
+  } catch {
+    return NextResponse.json({ error: "init_point de Mercado Pago inválido" }, { status: 502 })
+  }
+
   const { error } = await supabase
     .from("subscriptions")
     .update({
@@ -80,5 +99,5 @@ export async function POST(request: Request) {
     .eq("user_id", user.id)
   if (error) console.error("[mp-subscribe] subscriptions update", error)
 
-  return NextResponse.redirect(created.init_point, 302)
+  return NextResponse.redirect(redirectTo, 302)
 }
