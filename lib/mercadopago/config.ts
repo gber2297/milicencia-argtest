@@ -36,11 +36,26 @@ export function getPlanAmountArs(plan: MercadoPagoPlanKey): number {
 }
 
 /**
+ * Si definís `MERCADOPAGO_TEST_CHECKOUT_EMAIL` + `MERCADOPAGO_TEST_AMOUNT_ARS`, solo ese comprador
+ * ve ese monto en el checkout (producción). Quitá ambas variables después de probar.
+ */
+function getTestAmountOverrideArs(payerEmail: string | undefined): number | null {
+  const want = process.env.MERCADOPAGO_TEST_CHECKOUT_EMAIL?.trim().toLowerCase()
+  const raw = process.env.MERCADOPAGO_TEST_AMOUNT_ARS?.trim()
+  if (!want || !raw || !payerEmail) return null
+  if (payerEmail.trim().toLowerCase() !== want) return null
+  const n = Number(raw)
+  if (!Number.isFinite(n) || n <= 0) return null
+  return n
+}
+
+/**
  * Recurrencia para POST /preapproval sin `preapproval_plan_id` (flujo pending + init_point).
  * Con plan asociado, MP exige `card_token_id`; sin plan podés redirigir al checkout de MP.
  */
-export function getAutoRecurringForPlan(plan: MercadoPagoPlanKey) {
-  const amount = getPlanAmountArs(plan)
+export function getAutoRecurringForPlan(plan: MercadoPagoPlanKey, payerEmail?: string) {
+  const override = getTestAmountOverrideArs(payerEmail)
+  const amount = override ?? getPlanAmountArs(plan)
   if (plan === "weekly") {
     return {
       frequency: 7,

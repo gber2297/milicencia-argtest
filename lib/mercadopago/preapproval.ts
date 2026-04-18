@@ -43,7 +43,7 @@ export async function createPendingPreapproval(input: {
       payer_email: input.payerEmail,
       back_url: input.backUrl,
       status: "pending",
-      auto_recurring: getAutoRecurringForPlan(input.planKey),
+      auto_recurring: getAutoRecurringForPlan(input.planKey, input.payerEmail),
     }),
   })
 
