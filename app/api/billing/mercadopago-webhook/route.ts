@@ -18,6 +18,8 @@ function readIdFromMetadata(meta: Record<string, unknown> | null): string | null
 /** Mercado Pago envía el cuerpo en JSON y a veces datos en query (IPN legacy). */
 export async function POST(request: Request) {
   const url = new URL(request.url)
+  // Visible en logs del contenedor (Docker/EasyPanel); Next no registra cada request por defecto.
+  console.info("[mp-webhook] POST", url.pathname + url.search)
   let topic =
     url.searchParams.get("topic") ||
     url.searchParams.get("type") ||
@@ -84,6 +86,8 @@ export async function POST(request: Request) {
 }
 
 /** Algunos chequeos de MP usan GET. */
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url)
+  console.info("[mp-webhook] GET", url.pathname + url.search)
   return NextResponse.json({ ok: true })
 }
