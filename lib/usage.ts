@@ -1,6 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-import { PLAN_LIMITS } from "@/lib/billing"
 import { getSubscriptionForUser, isPremiumSubscription } from "@/lib/billing"
 import { getUserPreferences } from "@/lib/user-preferences"
 
@@ -37,13 +36,13 @@ export async function getUsageSummaryForClient(supabase: SupabaseClient, userId:
     streakCount: prefs?.streak_count ?? 0,
     practice: {
       used: practiceUsed,
-      limit: premium ? null : PLAN_LIMITS.practicePerDayWithoutSubscription,
-      remaining: premium ? null : Math.max(0, PLAN_LIMITS.practicePerDayWithoutSubscription - practiceUsed),
+      limit: premium ? null : 0,
+      remaining: premium ? null : 0,
     },
     exam: {
       used: examUsed,
-      limit: premium ? null : PLAN_LIMITS.examPerDayWithoutSubscription,
-      remaining: premium ? null : Math.max(0, PLAN_LIMITS.examPerDayWithoutSubscription - examUsed),
+      limit: premium ? null : 0,
+      remaining: premium ? null : 0,
     },
   }
 }
@@ -51,40 +50,28 @@ export async function getUsageSummaryForClient(supabase: SupabaseClient, userId:
 export async function canAnswerPracticeQuestion(supabase: SupabaseClient, userId: string) {
   const sub = await getSubscriptionForUser(supabase, userId)
   if (isPremiumSubscription(sub)) return { ok: true as const, reason: null as string | null }
-  const usage = await getTodayUsageRow(supabase, userId)
-  if (usage.questions_answered >= PLAN_LIMITS.practicePerDayWithoutSubscription) {
-    return { ok: false as const, reason: "LIMIT_PRACTICE" as const }
-  }
-  return { ok: true as const, reason: null }
+  return { ok: false as const, reason: "SUBSCRIPTION_REQUIRED" as const }
 }
 
 export async function canStartExam(supabase: SupabaseClient, userId: string) {
   const sub = await getSubscriptionForUser(supabase, userId)
   if (isPremiumSubscription(sub)) return { ok: true as const, reason: null as string | null }
-  const usage = await getTodayUsageRow(supabase, userId)
-  if (usage.exams_started >= PLAN_LIMITS.examPerDayWithoutSubscription) {
-    return { ok: false as const, reason: "LIMIT_EXAM" as const }
-  }
-  return { ok: true as const, reason: null }
+  return { ok: false as const, reason: "SUBSCRIPTION_REQUIRED" as const }
 }
 
 export async function recordPracticeAnswer(supabase: SupabaseClient, userId: string) {
   const sub = await getSubscriptionForUser(supabase, userId)
-  if (isPremiumSubscription(sub)) {
-    await updateStreak(supabase, userId)
-    return
+  if (!isPremiumSubscription(sub)) {
+    throw new Error("Se requiere suscripción activa")
   }
-  const { data, error } = await supabase.rpc("bump_practice_usage", { p_user_id: userId })
-  if (error) throw error
   await updateStreak(supabase, userId)
-  return data as number
 }
 
 export async function recordExamStarted(supabase: SupabaseClient, userId: string) {
   const sub = await getSubscriptionForUser(supabase, userId)
-  if (isPremiumSubscription(sub)) return
-  const { error } = await supabase.rpc("bump_exam_start", { p_user_id: userId })
-  if (error) throw error
+  if (!isPremiumSubscription(sub)) {
+    throw new Error("Se requiere suscripción activa")
+  }
 }
 
 async function updateStreak(supabase: SupabaseClient, userId: string) {

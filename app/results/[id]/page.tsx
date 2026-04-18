@@ -130,8 +130,8 @@ const ResultsPage = async ({ params }: ResultsPageProps) => {
         </div>
         {!premium && (
           <p className="text-center text-xs text-zinc-500">
-            Premium desbloquea practica y simulacros ilimitados.{" "}
-            <PremiumCheckoutLink className="font-semibold text-[var(--brand-blue)] hover:underline">
+            Para seguir practicando o hacer otro simulacro necesitás suscripción activa.{" "}
+            <PremiumCheckoutLink choosePlanFirst className="font-semibold text-[var(--brand-blue)] hover:underline">
               Ver planes
             </PremiumCheckoutLink>
           </p>

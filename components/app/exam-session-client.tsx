@@ -33,7 +33,7 @@ export function ExamSessionClient() {
       try {
         const response = await fetch("/api/exam/start", { method: "POST" })
         const data = await response.json()
-        if (response.status === 403 && data.code === "LIMIT_EXAM") {
+        if (response.status === 403 && (data.code === "SUBSCRIPTION_REQUIRED" || data.code === "LIMIT_EXAM")) {
           setBlockedByLimit(true)
           setPaywallOpen(true)
           setQuestions([])
@@ -115,7 +115,7 @@ export function ExamSessionClient() {
       <>
         <Card className="border-dashed border-zinc-300/90 bg-zinc-50/60 p-6 text-center sm:p-8">
           {blockedByLimit ? (
-            <p className="text-sm font-medium text-zinc-800">Ya usaste tu simulacro de hoy sin suscripción activa.</p>
+            <p className="text-sm font-medium text-zinc-800">Necesitás una suscripción activa para hacer el simulacro.</p>
           ) : (
             <>
               <p className="text-sm font-medium text-zinc-800">{errorMessage ?? "No hay preguntas para este simulacro."}</p>

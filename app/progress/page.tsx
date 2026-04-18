@@ -1,13 +1,12 @@
-import Link from "next/link"
 import { redirect } from "next/navigation"
 
 import { AppPageHeader } from "@/components/app/app-page-header"
 import { PremiumCheckoutLink } from "@/components/app/premium-links"
-import { BarChart3, BookOpen, CheckCircle2, Lock, Target, XCircle } from "lucide-react"
+import { BarChart3, BookOpen, CheckCircle2, Target, XCircle } from "lucide-react"
 
 import { Card } from "@/components/ui/card"
 import { requireUser } from "@/lib/auth"
-import { PLAN_LIMITS, getSubscriptionForUser, isPremiumSubscription } from "@/lib/billing"
+import { getSubscriptionForUser, isPremiumSubscription } from "@/lib/billing"
 import { getCategoryPerformance, getProgressStats } from "@/lib/queries/app"
 import { createClient } from "@/lib/supabase/server"
 import { getUserPreferences } from "@/lib/user-preferences"
@@ -22,6 +21,27 @@ const ProgressPage = async () => {
 
   const sub = await getSubscriptionForUser(supabase, user.id)
   const premium = isPremiumSubscription(sub)
+
+  if (!premium) {
+    return (
+      <div className="space-y-8 sm:space-y-10">
+        <AppPageHeader
+          eyebrow="Estadísticas"
+          title="Progreso"
+          description="Resumen de tu actividad y rendimiento por categoría."
+        />
+        <Card className="landing-card-hover border-amber-100/80 bg-gradient-to-br from-amber-50/80 to-white p-6 sm:p-8">
+          <p className="text-sm text-zinc-700">
+            Las estadísticas de progreso están disponibles con suscripción activa. Suscribite para ver precisión, categorías
+            y simulacros recientes.
+          </p>
+          <PremiumCheckoutLink appearance="primary" choosePlanFirst className="mt-6 inline-flex">
+            Ver planes
+          </PremiumCheckoutLink>
+        </Card>
+      </div>
+    )
+  }
 
   const stats = await getProgressStats(user.id)
   const masteryPercent = computeMasteryProgress({
@@ -41,10 +61,7 @@ const ProgressPage = async () => {
     .order("started_at", { ascending: false })
     .limit(8)
 
-  const categoryPreview = premium
-    ? categoryPerformance.slice(0, 8)
-    : categoryPerformance.slice(0, PLAN_LIMITS.progressCategoriesPreview)
-  const hasMoreCategories = !premium && categoryPerformance.length > categoryPreview.length
+  const categoryPreview = categoryPerformance.slice(0, 8)
 
   const topStats = [
     { label: "Total respondidas", value: String(stats.totalAnswered), icon: BookOpen, accent: "from-blue-600 to-blue-700" },
@@ -67,14 +84,6 @@ const ProgressPage = async () => {
           description="Resumen de tu actividad y rendimiento por categoría."
           progressPercent={masteryPercent}
         />
-        {!premium && (
-          <p className="text-xs text-zinc-600 sm:text-sm">
-            Estadísticas avanzadas por categoría:{" "}
-            <PremiumCheckoutLink className="font-semibold text-[var(--brand-blue)] hover:underline">
-              Premium
-            </PremiumCheckoutLink>
-          </p>
-        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
@@ -134,17 +143,6 @@ const ProgressPage = async () => {
                   </p>
                 </div>
               ))}
-              {hasMoreCategories && (
-                <div className="flex flex-col items-center justify-between gap-3 rounded-2xl border border-dashed border-amber-200/90 bg-gradient-to-r from-amber-50/50 to-orange-50/30 p-4 sm:flex-row">
-                  <div className="flex items-center gap-2 text-sm font-semibold text-amber-950">
-                    <Lock className="size-4 shrink-0" aria-hidden />
-                    {categoryPerformance.length - categoryPreview.length} categorías más con Premium
-                  </div>
-                  <PremiumCheckoutLink appearance="primary" className="h-9 w-full px-4 text-sm sm:w-auto">
-                    Pasar a Premium
-                  </PremiumCheckoutLink>
-                </div>
-              )}
             </>
           ) : (
             <p className="rounded-2xl border border-dashed border-zinc-200/90 bg-zinc-50/60 px-4 py-8 text-center text-sm text-zinc-600">

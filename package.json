@@ -34,7 +34,8 @@
     "studio:render:marketing": "remotion render remotion/index.ts AppMarketingVideo out/app-marketing-video.mp4 --props=src/data/remotion-marketing-props.json",
     "studio:render:studio": "remotion render remotion/index.ts MiLicenciaVideo out/studio-video.mp4 --props=src/data/remotion-studio-props.json",
     "studio:blotato-upload": "tsx scripts/blotato-upload.ts",
-    "studio:resolve-image": "tsx scripts/resolve-scene-image.ts"
+    "studio:resolve-image": "tsx scripts/resolve-scene-image.ts",
+    "mp:create-plans": "node scripts/mercadopago-create-plans.mjs"
   },
   "dependencies": {
     "@remotion/player": "^4.0.448",

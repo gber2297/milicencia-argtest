@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   if (!gate.ok) {
     const summary = await getUsageSummaryForClient(supabase, user.id)
     return NextResponse.json(
-      { error: "LIMIT_PRACTICE", code: gate.reason, usage: summary },
+      { error: "Se requiere suscripción activa", code: gate.reason, usage: summary },
       { status: 403 },
     )
   }

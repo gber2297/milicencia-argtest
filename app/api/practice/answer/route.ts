@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
   const gate = await canAnswerPracticeQuestion(supabase, user.id)
   if (!gate.ok) {
-    return NextResponse.json({ error: "LIMIT_PRACTICE", code: gate.reason }, { status: 403 })
+    return NextResponse.json({ error: "Se requiere suscripción activa", code: gate.reason }, { status: 403 })
   }
 
   const { data: questionRow } = await supabase

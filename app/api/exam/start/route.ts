@@ -13,7 +13,10 @@ export async function POST() {
 
   const gate = await canStartExam(supabase, user.id)
   if (!gate.ok) {
-    return NextResponse.json({ error: "LIMIT_EXAM", code: gate.reason }, { status: 403 })
+    return NextResponse.json(
+      { error: "Se requiere suscripción activa", code: gate.reason },
+      { status: 403 },
+    )
   }
 
   const questions = await getExamQuestions(30)

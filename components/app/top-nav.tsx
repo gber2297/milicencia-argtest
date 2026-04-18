@@ -61,7 +61,7 @@ export async function TopNav() {
             </>
           )}
           {authenticated ? (
-            <PremiumCheckoutLink appearance="outline" className="hidden h-9 gap-1 px-3 md:inline-flex">
+            <PremiumCheckoutLink appearance="outline" choosePlanFirst className="hidden h-9 gap-1 px-3 md:inline-flex">
               <Trophy className="mr-1 size-4" aria-hidden />
               Premium
             </PremiumCheckoutLink>

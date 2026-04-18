@@ -11,6 +11,12 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   const formData = await request.formData()
+  const redirectRaw = formData.get("redirect")
+  const redirectTo =
+    typeof redirectRaw === "string" && redirectRaw.startsWith("/") && !redirectRaw.startsWith("//")
+      ? redirectRaw
+      : ""
+
   const payload = schema.safeParse({
     email: String(formData.get("email") ?? ""),
     password: String(formData.get("password") ?? ""),
@@ -26,6 +32,10 @@ export async function POST(request: Request) {
 
   if (error) {
     return NextResponse.redirect(publicRedirectUrl(request, `/login?error=${encodeURIComponent(error.message)}`))
+  }
+
+  if (redirectTo) {
+    return NextResponse.redirect(publicRedirectUrl(request, redirectTo))
   }
 
   return NextResponse.redirect(publicRedirectUrl(request, "/dashboard"))

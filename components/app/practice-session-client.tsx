@@ -63,7 +63,7 @@ export function PracticeSessionClient({
     try {
       const response = await fetch(`/api/practice/question${query}`)
       const data = await response.json()
-      if (response.status === 403 && data.code === "LIMIT_PRACTICE") {
+      if (response.status === 403 && (data.code === "SUBSCRIPTION_REQUIRED" || data.code === "LIMIT_PRACTICE")) {
         setQuestion(null)
         setPaywallReason("practice")
         setPaywallOpen(true)
@@ -114,7 +114,7 @@ export function PracticeSessionClient({
         }),
       })
       const data = await response.json()
-      if (response.status === 403 && data.code === "LIMIT_PRACTICE") {
+      if (response.status === 403 && (data.code === "SUBSCRIPTION_REQUIRED" || data.code === "LIMIT_PRACTICE")) {
         setPaywallReason("practice")
         setPaywallOpen(true)
         return
@@ -150,8 +150,8 @@ export function PracticeSessionClient({
           <div className="mx-auto max-w-md text-center">
             {initialPracticeBlocked ? (
               <>
-                <p className="text-sm font-medium text-zinc-800">Llegaste al límite de práctica de hoy sin suscripción activa.</p>
-                <p className="mt-2 text-sm text-zinc-500">Podés seguir mañana o suscribirte para práctica ilimitada.</p>
+                <p className="text-sm font-medium text-zinc-800">Necesitás una suscripción activa para practicar.</p>
+                <p className="mt-2 text-sm text-zinc-500">Elegí un plan en Precios y completá el pago en Mercado Pago.</p>
               </>
             ) : (
               <>
@@ -169,23 +169,11 @@ export function PracticeSessionClient({
     )
   }
 
-  const remainingText =
-    usage && !usage.isPremium && usage.practice.remaining != null && usage.practice.limit != null
-      ? `Te quedan ${usage.practice.remaining} preguntas hoy`
-      : null
-
   return (
     <>
       <Card className="landing-card-hover space-y-6 overflow-hidden border-blue-100/60 bg-gradient-to-br from-white via-blue-50/20 to-violet-50/15 p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Badge className="border-zinc-200 bg-zinc-100/90 font-medium text-zinc-700">Respondidas: {answeredCount}</Badge>
-          {usage?.isPremium === false && (
-                <p className="text-xs text-zinc-500">
-              Sin suscripción ·{" "}
-              <span className="font-medium text-zinc-700">{remainingText ?? "Practicá con límite diario"}</span>
-              <span className="text-zinc-400"> · Con Premium: ilimitado</span>
-            </p>
-          )}
         </div>
         <div className="flex flex-wrap gap-2">
           <Badge>{categoryName ?? "General"}</Badge>

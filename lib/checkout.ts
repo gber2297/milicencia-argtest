@@ -24,3 +24,11 @@ export function getWeeklyCheckoutHref(): string {
 export function isExternalCheckoutUrl(href: string) {
   return href.startsWith("http")
 }
+
+/**
+ * Cliente: si es true, los CTAs usan POST a `/api/billing/mp-subscribe` (suscripción vía API).
+ * Debe coincidir con variables de servidor (`MERCADOPAGO_ACCESS_TOKEN`, ids de plan).
+ */
+export function isMercadoPagoSubscriptionsApiPublicEnabled() {
+  return process.env.NEXT_PUBLIC_MERCADOPAGO_SUBSCRIPTIONS_API?.trim() === "true"
+}

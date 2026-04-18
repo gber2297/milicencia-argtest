@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import { Check } from "lucide-react"
 
-import { PremiumCheckoutLink } from "@/components/app/premium-links"
+import { MercadoPagoBillingSubscribeForm, PremiumCheckoutLink } from "@/components/app/premium-links"
 import { Card } from "@/components/ui/card"
 import { getPremiumCheckoutHref, getWeeklyCheckoutHref, isExternalCheckoutUrl } from "@/lib/checkout"
+import { isMercadoPagoSubscriptionsApiConfigured } from "@/lib/mercadopago/config"
 
 export const metadata: Metadata = {
   title: "Planes y precios | Mi Licencia",
@@ -15,6 +16,7 @@ const PricingPage = () => {
   const monthlyHref = getPremiumCheckoutHref()
   const hasWeeklyMp = isExternalCheckoutUrl(weeklyHref)
   const hasMonthlyMp = isExternalCheckoutUrl(monthlyHref)
+  const apiSubscriptions = isMercadoPagoSubscriptionsApiConfigured()
 
   return (
     <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 md:gap-10">
@@ -40,13 +42,21 @@ const PricingPage = () => {
             Renovación semanal según el medio de pago
           </li>
         </ul>
-        <PremiumCheckoutLink subscriptionPlan="weekly" appearance="primary" className="mt-8 w-full sm:w-auto">
-          {hasWeeklyMp ? "Suscribirme — plan semanal" : "Ver cómo suscribirme"}
-        </PremiumCheckoutLink>
+        {apiSubscriptions ? (
+          <MercadoPagoBillingSubscribeForm plan="weekly" className="mt-8 w-full sm:w-auto">
+            Suscribirme — plan semanal
+          </MercadoPagoBillingSubscribeForm>
+        ) : (
+          <PremiumCheckoutLink subscriptionPlan="weekly" appearance="primary" className="mt-8 w-full sm:w-auto">
+            {hasWeeklyMp ? "Suscribirme — plan semanal" : "Ver cómo suscribirme"}
+          </PremiumCheckoutLink>
+        )}
         <p className="mt-3 text-xs text-zinc-500">
-          {hasWeeklyMp
-            ? "Ingresá al link, elegí cómo pagar, ¡y listo! Abrimos Mercado Pago en una nueva pestaña."
-            : "Cuando configures el link del plan semanal, este botón te llevará al checkout."}
+          {apiSubscriptions
+            ? "Te pedimos iniciar sesión si hace falta; después te redirigimos a Mercado Pago para el primer pago."
+            : hasWeeklyMp
+              ? "Ingresá al link, elegí cómo pagar, ¡y listo! Abrimos Mercado Pago en una nueva pestaña."
+              : "Cuando configures el link del plan semanal, este botón te llevará al checkout."}
         </p>
       </Card>
 
@@ -75,13 +85,25 @@ const PricingPage = () => {
             Renovación mensual
           </li>
         </ul>
-        <PremiumCheckoutLink subscriptionPlan="monthly" appearance="primary" primaryTone="amber" className="mt-8 w-full sm:w-auto">
-          {hasMonthlyMp ? "Suscribirme — plan mensual" : "Ver cómo suscribirme"}
-        </PremiumCheckoutLink>
+        {apiSubscriptions ? (
+          <MercadoPagoBillingSubscribeForm
+            plan="monthly"
+            primaryTone="amber"
+            className="mt-8 w-full sm:w-auto"
+          >
+            Suscribirme — plan mensual
+          </MercadoPagoBillingSubscribeForm>
+        ) : (
+          <PremiumCheckoutLink subscriptionPlan="monthly" appearance="primary" primaryTone="amber" className="mt-8 w-full sm:w-auto">
+            {hasMonthlyMp ? "Suscribirme — plan mensual" : "Ver cómo suscribirme"}
+          </PremiumCheckoutLink>
+        )}
         <p className="mt-3 text-xs text-zinc-500">
-          {hasMonthlyMp
-            ? "Te abrimos el checkout en una nueva pestaña para completar el pago."
-            : "Configurá NEXT_PUBLIC_MERCADOPAGO_CHECKOUT_URL con el link del plan mensual en Mercado Pago."}
+          {apiSubscriptions
+            ? "Te pedimos iniciar sesión si hace falta; después te redirigimos a Mercado Pago para el primer pago."
+            : hasMonthlyMp
+              ? "Te abrimos el checkout en una nueva pestaña para completar el pago."
+              : "Configurá NEXT_PUBLIC_MERCADOPAGO_CHECKOUT_URL con el link del plan mensual en Mercado Pago."}
         </p>
       </Card>
     </div>

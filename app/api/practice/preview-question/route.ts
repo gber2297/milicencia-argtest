@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server"
 
-import { getRandomPracticeQuestion } from "@/lib/queries/app"
-
-/** Pregunta aleatoria sin cuenta (solo lectura vía RLS). No consume cupo de práctica. */
+/** La práctica requiere cuenta con suscripción activa. */
 export async function GET() {
-  const question = await getRandomPracticeQuestion()
-  if (!question) return NextResponse.json({ error: "No hay preguntas disponibles" }, { status: 404 })
-  return NextResponse.json({ question })
+  return NextResponse.json(
+    { error: "Se requiere suscripción activa", code: "SUBSCRIPTION_REQUIRED" as const },
+    { status: 403 },
+  )
 }

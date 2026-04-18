@@ -2,10 +2,14 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { Infinity, Lightbulb, TrendingUp, X } from "lucide-react"
+import { Infinity, Lightbulb, Sparkles, TrendingUp, X } from "lucide-react"
 
 import { PremiumCheckoutLink } from "@/components/app/premium-links"
-import { getPremiumCheckoutHref, isExternalCheckoutUrl } from "@/lib/checkout"
+import {
+  getPremiumCheckoutHref,
+  isExternalCheckoutUrl,
+  isMercadoPagoSubscriptionsApiPublicEnabled,
+} from "@/lib/checkout"
 import { cn } from "@/lib/utils"
 
 export type PaywallReason = "practice" | "exam" | "weak" | "stats" | "generic"
@@ -20,18 +24,19 @@ const HERO_IMAGE =
   "https://media.screensdesign.com/gasset/411f83ab-cc12-4486-9957-e9d9171792bc.png"
 
 const REASON_COPY: Record<PaywallReason, { line: string }> = {
-  practice: { line: "Llegaste al límite diario de práctica sin suscripción activa." },
-  exam: { line: "Ya usaste tu simulacro de hoy sin suscripción activa." },
+  practice: { line: "La práctica requiere una suscripción activa." },
+  exam: { line: "Los simulacros requieren una suscripción activa." },
   weak: { line: "El análisis completo de debilidades es Premium." },
   stats: { line: "Las estadísticas avanzadas están en Premium." },
   generic: { line: "Desbloqueá herramientas exclusivas para aprobar más rápido." },
 }
 
 export function PaywallModal({ open, onOpenChange, reason = "generic" }: PaywallModalProps) {
-  const [plan, setPlan] = useState<"annual" | "monthly">("annual")
+  const [plan, setPlan] = useState<"weekly" | "monthly">("monthly")
   if (!open) return null
 
-  const payWithMp = isExternalCheckoutUrl(getPremiumCheckoutHref())
+  const payWithMp =
+    isExternalCheckoutUrl(getPremiumCheckoutHref()) || isMercadoPagoSubscriptionsApiPublicEnabled()
   const context = REASON_COPY[reason] ?? REASON_COPY.generic
 
   return (
@@ -116,10 +121,10 @@ export function PaywallModal({ open, onOpenChange, reason = "generic" }: Paywall
             <div className="mt-10 space-y-3 pb-4">
               <button
                 type="button"
-                onClick={() => setPlan("annual")}
+                onClick={() => setPlan("weekly")}
                 className={cn(
                   "flex w-full items-center justify-between rounded-2xl border-2 p-4 text-left shadow-sm transition",
-                  plan === "annual"
+                  plan === "weekly"
                     ? "border-[var(--brand-blue)] bg-blue-50"
                     : "border-zinc-100 hover:border-zinc-200",
                 )}
@@ -127,18 +132,17 @@ export function PaywallModal({ open, onOpenChange, reason = "generic" }: Paywall
                 <div className="flex items-center gap-3">
                   <div
                     className={cn(
-                      "size-5 rounded-full border-4",
-                      plan === "annual" ? "border-[var(--brand-blue)]" : "border-zinc-200",
+                      "size-5 rounded-full border-2",
+                      plan === "weekly" ? "border-[var(--brand-blue)] bg-[var(--brand-blue)]" : "border-zinc-200",
                     )}
                   />
                   <div>
-                    <p className="font-bold text-zinc-900">Plan Anual</p>
-                    <p className="text-[10px] font-bold uppercase text-[var(--brand-blue)]">Ahorrá vs. mensual</p>
+                    <p className="font-bold text-zinc-900">Plan semanal</p>
+                    <p className="text-[10px] font-medium text-zinc-500">Ideal si tenés el examen pronto</p>
                   </div>
                 </div>
-                <p className="text-right font-extrabold text-zinc-900">
-                  Ver precios
-                  <span className="block text-[10px] font-normal text-zinc-500">en la página de pago</span>
+                <p className="font-extrabold text-zinc-900">
+                  $4.990<span className="text-[10px] font-normal text-zinc-500">/sem</span>
                 </p>
               </button>
 
@@ -148,7 +152,7 @@ export function PaywallModal({ open, onOpenChange, reason = "generic" }: Paywall
                 className={cn(
                   "flex w-full items-center justify-between rounded-2xl border-2 p-4 text-left transition",
                   plan === "monthly"
-                    ? "border-[var(--brand-blue)] bg-blue-50"
+                    ? "border-amber-400/80 bg-amber-50/90"
                     : "border-zinc-100 hover:border-zinc-200",
                 )}
               >
@@ -156,13 +160,30 @@ export function PaywallModal({ open, onOpenChange, reason = "generic" }: Paywall
                   <div
                     className={cn(
                       "size-5 rounded-full border-2",
-                      plan === "monthly" ? "border-[var(--brand-blue)] bg-[var(--brand-blue)]" : "border-zinc-200",
+                      plan === "monthly"
+                        ? "border-amber-600 bg-amber-600"
+                        : "border-zinc-200",
                     )}
                   />
-                  <p className="font-bold text-zinc-900">Plan Mensual</p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="font-bold text-zinc-900">Plan mensual</p>
+                      <span
+                        className={cn(
+                          "inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold leading-none tracking-tight shadow-sm",
+                          "border-amber-200/90 bg-gradient-to-r from-amber-100/95 via-orange-50 to-amber-50 text-amber-950",
+                          "ring-1 ring-amber-400/20",
+                          plan === "monthly" && "border-amber-300/90 shadow-amber-200/40 ring-amber-500/25",
+                        )}
+                      >
+                        <Sparkles className="size-3 shrink-0 text-amber-500" aria-hidden />
+                        Popular
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <p className="font-extrabold text-zinc-900">
-                  $8.999<span className="text-[10px] font-normal text-zinc-500">/mes</span>
+                  $8.990<span className="text-[10px] font-normal text-zinc-500">/mes</span>
                 </p>
               </button>
             </div>
@@ -172,14 +193,21 @@ export function PaywallModal({ open, onOpenChange, reason = "generic" }: Paywall
         <div className="shrink-0 border-t border-zinc-100 bg-white p-8 pt-4">
           <PremiumCheckoutLink
             appearance="primary"
-            className="inline-flex h-14 w-full items-center justify-center rounded-2xl bg-[var(--brand-blue)] text-base font-bold text-white shadow-xl shadow-blue-100 hover:brightness-105"
+            subscriptionPlan={plan}
+            primaryTone={plan === "monthly" ? "amber" : "blue"}
+            className={cn(
+              "inline-flex h-14 w-full items-center justify-center rounded-2xl text-base font-bold shadow-xl hover:brightness-105",
+              plan === "monthly"
+                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-amber-100"
+                : "bg-[var(--brand-blue)] text-white shadow-blue-100",
+            )}
             onNavigate={() => onOpenChange(false)}
           >
-            Obtener Premium
+            Suscribirme — plan {plan === "weekly" ? "semanal" : "mensual"}
           </PremiumCheckoutLink>
           <p className="mt-4 text-center text-[10px] font-medium uppercase tracking-widest text-zinc-400">
             Garantía de satisfacción de 7 días ·{" "}
-            {payWithMp ? "Pago con Mercado Pago" : "Elegí tu plan en la página de precios"}
+            {payWithMp ? "Pago con Mercado Pago" : "Elegí arriba y continuá al checkout"}
           </p>
         </div>
       </div>

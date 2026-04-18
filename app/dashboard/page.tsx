@@ -88,9 +88,9 @@ const DashboardPage = async () => {
         </div>
         {!usage.isPremium && (
           <p className="relative mt-4 border-t border-blue-100/80 pt-4 text-xs text-zinc-600">
-            Sin suscripción activa: {usage.practice.remaining ?? 0} preguntas de práctica restantes hoy ·{" "}
-            <PremiumCheckoutLink className="font-semibold text-[var(--brand-blue)] hover:underline">
-              Práctica ilimitada con Premium
+            Sin suscripción activa no podés practicar ni hacer simulacros.{" "}
+            <PremiumCheckoutLink choosePlanFirst className="font-semibold text-[var(--brand-blue)] hover:underline">
+              Ver planes y suscribirme
             </PremiumCheckoutLink>
           </p>
         )}
