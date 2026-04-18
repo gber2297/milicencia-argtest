@@ -16,13 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MiLicencia Argentina 🇦🇷 | Practica para la licencia",
+  title: "MiLicencia Argentina | Practica para la licencia",
   description:
-    "MiLicencia Argentina 🇦🇷 te ayuda a practicar el teorico vial de Argentina con examenes simulados y progreso",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
+    "MiLicencia Argentina te ayuda a practicar el teorico vial de Argentina con examenes simulados y progreso",
 };
 
 export default function RootLayout({
