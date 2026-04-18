@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 
 import { isAnalyticsDashboardEnabled } from "@/lib/analytics/env-analytics-dashboard"
 import { tryCreateAdminClient } from "@/lib/supabase/admin"
+import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Tracking (dev)",
@@ -29,10 +30,24 @@ const dateFmt = new Intl.DateTimeFormat("es-AR", {
   timeStyle: "medium",
 })
 
-export default async function DevAnalyticsPage() {
+type AudienceFilter = "all" | "logged" | "anon"
+
+function parseAudience(raw: string | undefined): AudienceFilter {
+  if (raw === "logged" || raw === "anon") return raw
+  return "all"
+}
+
+interface DevAnalyticsPageProps {
+  searchParams: Promise<{ audience?: string }>
+}
+
+export default async function DevAnalyticsPage({ searchParams }: DevAnalyticsPageProps) {
   if (!isAnalyticsDashboardEnabled()) {
     redirect("/")
   }
+
+  const sp = await searchParams
+  const audience = parseAudience(sp.audience)
 
   const admin = tryCreateAdminClient()
   let rows: AnalyticsRow[] = []
@@ -41,7 +56,7 @@ export default async function DevAnalyticsPage() {
   if (!admin) {
     loadError = "Falta SUPABASE_SERVICE_ROLE_KEY en el servidor: no se puede leer la tabla."
   } else {
-    const { data, error } = await admin
+    let q = admin
       .from("web_analytics_events")
       .select(
         "id, created_at, event_name, path, referrer, props, session_id, user_id, user_agent",
@@ -49,11 +64,36 @@ export default async function DevAnalyticsPage() {
       .order("created_at", { ascending: false })
       .limit(500)
 
+    if (audience === "logged") {
+      q = q.not("user_id", "is", null)
+    } else if (audience === "anon") {
+      q = q.is("user_id", null)
+    }
+
+    const { data, error } = await q
+
     if (error) {
       loadError = error.message
     } else {
       rows = (data ?? []) as AnalyticsRow[]
     }
+  }
+
+  const filterLink = (key: AudienceFilter, label: string) => {
+    const href = key === "all" ? "/dev/analytics" : `/dev/analytics?audience=${key}`
+    return (
+      <Link
+        href={href}
+        className={cn(
+          "rounded-lg px-3 py-1.5 text-sm font-medium transition",
+          audience === key
+            ? "bg-zinc-900 text-white"
+            : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200",
+        )}
+      >
+        {label}
+      </Link>
+    )
   }
 
   return (
@@ -91,6 +131,18 @@ export default async function DevAnalyticsPage() {
           {loadError}
         </div>
       ) : null}
+
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50/80 px-4 py-3">
+        <span className="text-sm font-medium text-zinc-600">Audiencia:</span>
+        {filterLink("all", "Todos")}
+        {filterLink("logged", "Con sesión")}
+        {filterLink("anon", "Sin sesión")}
+        <span className="ml-auto text-xs text-zinc-500">
+          {audience === "all" && "Incluye visitantes y usuarios logueados."}
+          {audience === "logged" && "Solo filas con user_id (telemetry con cookie de sesión)."}
+          {audience === "anon" && "Solo visitantes: user_id vacío en el evento."}
+        </span>
+      </div>
 
       <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
         <div className="border-b border-zinc-100 px-4 py-3 text-sm text-zinc-600">
