@@ -8,6 +8,12 @@ import { Menu } from "lucide-react"
 import { isStudioEnabled } from "@/lib/studio/env-studio"
 import { cn } from "@/lib/utils"
 
+const GUEST_LINKS = [
+  { href: "/#caracteristicas", label: "Características" },
+  { href: "/#planes", label: "Planes" },
+  { href: "/#faq", label: "FAQs" },
+] as const
+
 const DESKTOP_LINKS_BASE = [
   { href: "/dashboard", label: "Dashboard", match: (p: string) => p === "/dashboard" },
   { href: "/practice", label: "Practica", match: (p: string) => p.startsWith("/practice") },
@@ -22,27 +28,41 @@ const STUDIO_LINK = {
   match: (p: string) => p.startsWith("/studio"),
 } as const
 
-function getDesktopLinks() {
+function getAppLinks() {
   if (!isStudioEnabled()) return [...DESKTOP_LINKS_BASE]
   return [...DESKTOP_LINKS_BASE, STUDIO_LINK]
 }
 
-export function NavLinksDesktop() {
+const linkClass = (active: boolean) =>
+  cn(
+    "rounded-xl px-3.5 py-2 text-sm font-semibold transition-all duration-200",
+    active
+      ? "bg-gradient-to-r from-blue-50/95 to-violet-50/70 text-[var(--brand-blue)] shadow-sm shadow-blue-500/10 ring-1 ring-blue-200/50"
+      : "text-zinc-600 hover:bg-white/90 hover:text-zinc-900 hover:shadow-sm",
+  )
+
+export function NavLinksDesktop({ authenticated }: { authenticated: boolean }) {
   const pathname = usePathname()
-  const links = getDesktopLinks()
+
+  if (!authenticated) {
+    return (
+      <nav className="flex items-center gap-0.5" aria-label="Principal">
+        {GUEST_LINKS.map(({ href, label }) => (
+          <Link key={href} href={href} className={linkClass(false)}>
+            {label}
+          </Link>
+        ))}
+      </nav>
+    )
+  }
+
+  const links = getAppLinks()
   return (
     <nav className="flex items-center gap-0.5" aria-label="Principal">
       {links.map(({ href, label, match }) => {
         const active = match(pathname)
         return (
-          <Link
-            key={href}
-            href={href}
-            className={cn(
-              "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-              active ? "bg-zinc-100 text-zinc-900" : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900",
-            )}
-          >
+          <Link key={href} href={href} className={linkClass(active)}>
             {label}
           </Link>
         )
@@ -51,10 +71,14 @@ export function NavLinksDesktop() {
   )
 }
 
-function NavLinksMobileInner() {
+function NavLinksMobileInner({ authenticated }: { authenticated: boolean }) {
   const pathname = usePathname()
-  const links = getDesktopLinks()
-  const active = links.find((l) => l.match(pathname)) ?? links[0]
+  const guestLinks = [...GUEST_LINKS]
+  const appLinks = getAppLinks()
+  const links = authenticated ? appLinks : guestLinks
+  const active = authenticated
+    ? appLinks.find((l) => l.match(pathname)) ?? appLinks[0]
+    : guestLinks[0]
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const menuId = useId()
@@ -91,9 +115,7 @@ function NavLinksMobileInner() {
             open && "bg-zinc-100/80 text-zinc-900",
           )}
         >
-          <span className="sr-only">
-            Secciones: {active.label}. Abrir menu
-          </span>
+          <span className="sr-only">Secciones: {active.label}. Abrir menu</span>
           <Menu className="size-[18px] sm:size-5" aria-hidden />
         </button>
 
@@ -102,27 +124,40 @@ function NavLinksMobileInner() {
             id={menuId}
             role="region"
             aria-labelledby={`${menuId}-trigger`}
-            className="absolute right-0 top-full z-[110] mt-1 max-h-[min(70vh,22rem)] w-[min(18rem,calc(100vw-1.5rem))] overflow-auto rounded-xl border border-zinc-200 bg-white py-1 shadow-lg shadow-zinc-950/20"
+            className="absolute right-0 top-full z-[110] mt-1 max-h-[min(70vh,22rem)] w-[min(18rem,calc(100vw-1.5rem))] overflow-auto rounded-2xl border border-white/80 bg-white/95 py-1 shadow-xl shadow-blue-500/10 backdrop-blur-md"
           >
             <p className="border-b border-zinc-100 px-3 py-2 text-xs font-medium uppercase tracking-wide text-zinc-500">
               Ir a
             </p>
-            {links.map(({ href, label, match }) => {
-              const isActive = match(pathname)
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "block px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive ? "bg-zinc-100 text-zinc-900" : "text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900",
-                  )}
-                >
-                  {label}
-                </Link>
-              )
-            })}
+            {authenticated
+              ? appLinks.map(({ href, label, match }) => {
+                  const isActive = match(pathname)
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "block px-3 py-2.5 text-sm font-semibold transition-colors",
+                        isActive
+                          ? "bg-gradient-to-r from-blue-50 to-violet-50/80 text-[var(--brand-blue)]"
+                          : "text-zinc-700 hover:bg-blue-50/50 hover:text-zinc-900",
+                      )}
+                    >
+                      {label}
+                    </Link>
+                  )
+                })
+              : guestLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className="block px-3 py-2.5 text-sm font-semibold text-zinc-700 transition-colors hover:bg-blue-50/50 hover:text-zinc-900"
+                  >
+                    {label}
+                  </Link>
+                ))}
           </div>
         ) : null}
       </nav>
@@ -130,7 +165,7 @@ function NavLinksMobileInner() {
   )
 }
 
-export function NavLinksMobile() {
+export function NavLinksMobile({ authenticated }: { authenticated: boolean }) {
   const pathname = usePathname()
-  return <NavLinksMobileInner key={pathname} />
+  return <NavLinksMobileInner key={`${pathname}-${authenticated}`} authenticated={authenticated} />
 }

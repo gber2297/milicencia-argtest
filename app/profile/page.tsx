@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache"
 
+import { AppPageHeader } from "@/components/app/app-page-header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,14 +21,38 @@ const ProfilePage = async () => {
   }
 
   return (
-    <Card className="mx-auto max-w-lg space-y-4">
-      <h1 className="text-2xl font-semibold">Perfil</h1>
-      <form action={updateProfile} className="space-y-3">
-        <Input defaultValue={profile?.full_name ?? ""} name="full_name" />
-        <Input defaultValue={profile?.email ?? user.email ?? ""} disabled />
-        <Button>Guardar cambios</Button>
-      </form>
-    </Card>
+    <div className="space-y-8">
+      <AppPageHeader eyebrow="Cuenta" title="Perfil" description="Nombre visible y datos de acceso." />
+      <Card className="landing-card-hover mx-auto max-w-lg border-white/90 p-6 sm:p-8">
+        <form action={updateProfile} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="full_name" className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Nombre y apellido
+            </label>
+            <Input
+              id="full_name"
+              defaultValue={profile?.full_name ?? ""}
+              name="full_name"
+              className="rounded-2xl border-zinc-200/90 bg-white/80"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+              Email
+            </label>
+            <Input
+              id="email"
+              defaultValue={profile?.email ?? user.email ?? ""}
+              disabled
+              className="rounded-2xl border-zinc-200/60 bg-zinc-50/80"
+            />
+          </div>
+          <Button type="submit" className="mt-2 w-full sm:w-auto">
+            Guardar cambios
+          </Button>
+        </form>
+      </Card>
+    </div>
   )
 }
 

@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { AppPageHeader } from "@/components/app/app-page-header"
 import { redirectIfAuthenticated } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -14,18 +15,37 @@ const LoginPage = async ({ searchParams }: LoginPageProps) => {
   const params = await searchParams
 
   return (
-    <Card className="mx-auto max-w-md space-y-4">
-      <h1 className="text-2xl font-semibold">Ingresar</h1>
-      <form action="/auth/login" method="post" className="space-y-3">
-        <Input name="email" type="email" placeholder="Email" required />
-        <Input name="password" type="password" placeholder="Contrasena" required />
-        <Button className="w-full">Entrar</Button>
-      </form>
-      {params.error && <p className="text-sm text-red-600">{params.error}</p>}
-      <p className="text-sm text-zinc-600">
-        No tenes cuenta? <Link href="/register" className="text-blue-600">Crear cuenta</Link>
-      </p>
-    </Card>
+    <div className="space-y-8">
+      <AppPageHeader eyebrow="Acceso" title="Ingresar" description="Entrá con tu email y contraseña." />
+      <Card className="landing-card-hover mx-auto w-full max-w-md border-white/90 p-6 sm:p-8">
+        <form action="/auth/login" method="post" className="space-y-4">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="rounded-2xl border-zinc-200/90 bg-white/80"
+          />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Contraseña"
+            required
+            className="rounded-2xl border-zinc-200/90 bg-white/80"
+          />
+          <Button type="submit" className="mt-2 w-full">
+            Entrar
+          </Button>
+        </form>
+        {params.error && <p className="text-sm text-red-600">{params.error}</p>}
+        <p className="mt-4 text-center text-sm text-zinc-600">
+          ¿No tenés cuenta?{" "}
+          <Link href="/register" className="font-semibold text-[var(--brand-blue)] hover:underline">
+            Crear cuenta
+          </Link>
+        </p>
+      </Card>
+    </div>
   )
 }
 

@@ -77,11 +77,11 @@ export function getMarketingTemplateDefinition(id: string): MarketingTemplateDef
   return MARKETING_TEMPLATE_DEFINITIONS.find((t) => t.id === id)
 }
 
-/** Runtime de marketing sin IA (para ejemplos / tests). */
+/** Runtime de marketing de ejemplo (tests). */
 export function buildPlaceholderMarketingRuntime(templateId: string): VideoRuntime {
   const def = getMarketingTemplateDefinition(templateId) ?? MARKETING_TEMPLATE_DEFINITIONS[0]!
   const branding = defaultBranding()
-  const cta = defaultCta("Descargá MiLicencia gratis — link en bio")
+  const cta = defaultCta("Descargá MiLicencia — link en bio")
   const finalCard = defaultFinalCard({
     title: "Tu teórico, sin vueltas",
     subtitle: "Simulacros ilimitados · Argentina",

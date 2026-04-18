@@ -163,7 +163,7 @@ export const StudioForm = ({
           id="studio-cta"
           value={ctaManual}
           onChange={(e) => onCtaManualChange(e.target.value)}
-          placeholder="Practicá gratis en la APP"
+          placeholder="Practicá en la app"
           className="h-10 rounded-xl"
         />
       </div>

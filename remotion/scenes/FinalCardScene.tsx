@@ -45,7 +45,7 @@ export const FinalCardScene = ({ scene, branding, finalCard, appSimulatedUi }: F
               className="mt-8 inline-flex rounded-full bg-blue-600 px-8 py-3 text-base font-bold text-white shadow-xl shadow-blue-600/20"
               style={{ transform: `scale(${ctaPulse})` }}
             >
-              {branding.appName} — gratis
+              {branding.appName}
             </div>
             <p className="mt-4 text-sm text-zinc-400">Link en bio · practicá hoy</p>
           </div>
@@ -121,7 +121,7 @@ export const FinalCardScene = ({ scene, branding, finalCard, appSimulatedUi }: F
               boxShadow: "0 16px 40px rgba(37,99,235,0.45)",
             }}
           >
-            {branding.appName} — gratis
+            {branding.appName}
           </div>
           <p style={{ marginTop: 20, color: "#94a3b8", fontSize: 26, fontWeight: 700 }}>Link en bio · practicá hoy</p>
         </div>

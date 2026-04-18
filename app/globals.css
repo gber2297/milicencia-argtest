@@ -6,8 +6,172 @@
 @source "../remotion";
 
 :root {
-  --background: #f8fafc;
+  --background: #f4f7fc;
   --foreground: #0f172a;
+  --brand-blue: #1d5dff;
+  --brand-gold: #ffb800;
+  --landing-cyan: #00c8ff;
+  --landing-violet: #8b5cf6;
+  /* TopNav: h-14 (3.5rem) · sm:h-16 (4rem) — usamos el mayor para centrar en el viewport útil */
+  --landing-nav-offset: 4rem;
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes landing-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes landing-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes landing-shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@layer utilities {
+  .animate-landing-float {
+    animation: landing-float 5.5s ease-in-out infinite;
+  }
+
+  .animate-landing-glow {
+    animation: landing-glow-pulse 5s ease-in-out infinite;
+  }
+
+  .animate-landing-gradient {
+    background-size: 200% 200%;
+    animation: landing-gradient-shift 8s ease infinite;
+  }
+
+  .landing-btn-primary {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: linear-gradient(
+      125deg,
+      var(--landing-cyan) 0%,
+      var(--brand-blue) 42%,
+      var(--landing-violet) 100%
+    );
+    background-size: 200% 200%;
+    box-shadow:
+      0 4px 24px rgb(29 93 255 / 0.35),
+      0 0 0 1px rgb(255 255 255 / 0.2) inset;
+    transition:
+      transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.25s ease,
+      filter 0.25s ease;
+  }
+
+  .landing-btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    filter: brightness(1.08) saturate(1.05);
+    box-shadow:
+      0 16px 40px -8px rgb(29 93 255 / 0.55),
+      0 0 0 1px rgb(255 255 255 / 0.25) inset;
+    animation: landing-gradient-shift 3s ease infinite;
+  }
+
+  .landing-btn-primary:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+
+  .landing-btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 25%,
+      rgb(255 255 255 / 0.22) 50%,
+      transparent 75%
+    );
+    animation: landing-shine 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .landing-btn-secondary {
+    background: rgb(255 255 255 / 0.85);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgb(255 255 255 / 0.95);
+    box-shadow: 0 8px 32px rgb(15 23 42 / 0.08);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .landing-btn-secondary:hover {
+    transform: translateY(-2px);
+    background: rgb(255 255 255 / 0.98);
+    box-shadow: 0 12px 36px rgb(29 93 255 / 0.15);
+  }
+
+  .landing-btn-amber {
+    background: linear-gradient(125deg, #fbbf24 0%, #f97316 50%, #ea580c 100%);
+    box-shadow: 0 8px 28px rgb(234 88 12 / 0.35);
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .landing-btn-amber:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.06);
+    box-shadow: 0 14px 36px rgb(234 88 12 / 0.45);
+  }
+
+  .landing-card-hover {
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.35s ease,
+      border-color 0.25s ease;
+  }
+
+  .landing-card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 24px 48px -12px rgb(15 23 42 / 0.12),
+      0 0 0 1px rgb(29 93 255 / 0.08);
+  }
+
+  /**
+   * Banderas y emojis de color: Geist/no emoji font muestra "AR" en lugar de 🇦🇷.
+   * Forzar pila del sistema para ese glifo.
+   */
+  .font-emoji {
+    font-family:
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Noto Emoji", emoji, sans-serif;
+    font-style: normal;
+  }
 }
 
 @theme inline {
@@ -19,6 +183,19 @@
 
 html {
   overflow-x: hidden;
+}
+
+/* Scroll snap en la home (landing-fullpage): cada sección = ~100dvh */
+html:has(.landing-fullpage) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.landing-fullpage) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
 }
 
 body {

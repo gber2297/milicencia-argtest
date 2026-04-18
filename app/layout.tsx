@@ -16,8 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MiLicencia Argentina Test 🇦🇷 | Practica para la licencia",
-  description: "MiLicencia Argentina Test 🇦🇷 te ayuda a practicar el teorico vial de Argentina con examenes simulados y progreso",
+  title: "MiLicencia Argentina 🇦🇷 | Practica para la licencia",
+  description:
+    "MiLicencia Argentina 🇦🇷 te ayuda a practicar el teorico vial de Argentina con examenes simulados y progreso",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +37,7 @@ export default function RootLayout({
         <WebAnalytics />
         <AnalyticsPageViews />
         <TopNav />
-        <main className="mx-auto min-w-0 w-full max-w-6xl flex-1 overflow-x-hidden px-3 py-6 sm:px-6 sm:py-8">
+        <main className="mx-auto min-h-[calc(100dvh-3.5rem)] min-w-0 w-full max-w-6xl flex-1 overflow-x-hidden px-3 py-6 sm:min-h-[calc(100dvh-4rem)] sm:px-6 sm:py-9">
           {children}
         </main>
       </body>

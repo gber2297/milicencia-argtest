@@ -71,10 +71,10 @@ export function generateQuizRuntimeFromBrief(
 ): VideoRuntime {
   const clean = brief.trim() || "En rotonda, ¿quién tiene prioridad al entrar?"
   const r = baseRuntime("quiz", channel, voiceSpeed, generationMode, clean)
-  r.cta = defaultCta(ctaText ?? "Probá gratis — link en bio")
+  r.cta = defaultCta(ctaText ?? "Probá ahora — link en bio")
   r.finalCard = defaultFinalCard({
     title: "Pasá el teórico más rápido",
-    subtitle: "Simulacros reales · gratis hoy",
+    subtitle: "Simulacros reales · practicá hoy",
   })
   r.meta = { ...r.meta, questionSource: "template" }
 
@@ -219,10 +219,10 @@ export function generateQuizRuntimeFromDbQuestion(
 
   const clean = brief.trim() || question.question_text.slice(0, 80)
   const r = baseRuntime("quiz", channel, voiceSpeed, generationMode, clean)
-  r.cta = defaultCta(ctaText ?? "Probá gratis — link en bio")
+  r.cta = defaultCta(ctaText ?? "Probá ahora — link en bio")
   r.finalCard = defaultFinalCard({
     title: "Pasá el teórico más rápido",
-    subtitle: "Simulacros reales · gratis hoy",
+    subtitle: "Simulacros reales · practicá hoy",
   })
   r.meta = {
     ...r.meta,
@@ -338,7 +338,7 @@ export function generateErrorRuntimeFromBrief(
   r.cta = defaultCta(ctaText ?? "Evitá la trampa: practicá en la APP")
   r.finalCard = defaultFinalCard({
     title: "No pierdas puntos boludos",
-    subtitle: "Practicá señales en la app · gratis",
+    subtitle: "Practicá señales en la app",
   })
 
   const hook = "Esto te hace desaprobar"
@@ -417,7 +417,7 @@ export function generateMotivationRuntimeFromBrief(
 ): VideoRuntime {
   const clean = brief.trim() || "Ansiedad el día del examen"
   const r = baseRuntime("motivacion", channel, voiceSpeed, generationMode, clean)
-  r.cta = defaultCta(ctaText ?? "5 minutos hoy en la APP · gratis")
+  r.cta = defaultCta(ctaText ?? "5 minutos hoy en la app")
   r.finalCard = defaultFinalCard({
     title: "Vos podés",
     subtitle: "Entrená un poco cada día · resultado: aprobado",
@@ -498,7 +498,7 @@ export function generateAppRuntimeFromBrief(
 ): VideoRuntime {
   const clean = brief.trim() || "Simulacros como el examen real"
   const r = baseRuntime("app", channel, voiceSpeed, generationMode, clean)
-  r.cta = defaultCta(ctaText ?? "Descargá y practicá gratis")
+  r.cta = defaultCta(ctaText ?? "Descargá y practicá")
   r.finalCard = defaultFinalCard({
     title: "Entrená como en el examen",
     subtitle: "Preguntas + feedback · Argentina",
@@ -612,7 +612,7 @@ export function generateSampleRuntime(): VideoRuntime {
     "tiktok",
     "parser",
     1,
-    "Probá gratis — link en bio",
+    "Probá ahora — link en bio",
   )
 }
 
@@ -627,6 +627,6 @@ export function generateSampleRuntimeForType(videoType: VideoType): VideoRuntime
     marketing: "Promo app: practicar el teórico con simulacros reales",
   }
   return generateFromContentType(videoType, briefs[videoType], "reels", "parser", 1, {
-    ctaText: "Probá la app gratis hoy",
+    ctaText: "Probá la app hoy",
   })
 }

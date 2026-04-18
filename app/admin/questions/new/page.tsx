@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { requireAdmin } from "@/lib/auth"
+import { parseQuestionImageUrl } from "@/lib/question-image-url"
 import { createClient } from "@/lib/supabase/server"
 
 const schema = z.object({
@@ -41,6 +42,9 @@ const NewQuestionPage = async ({ searchParams }: NewQuestionPageProps) => {
     })
     if (!payload.success) redirect("/admin/questions/new?error=Revisa los datos de la pregunta")
 
+    const imageParsed = parseQuestionImageUrl(formData.get("image_url"))
+    if (!imageParsed.ok) redirect(`/admin/questions/new?error=${encodeURIComponent(imageParsed.error)}`)
+
     const supabase = await createClient()
     const { data: question } = await supabase
       .from("questions")
@@ -50,6 +54,7 @@ const NewQuestionPage = async ({ searchParams }: NewQuestionPageProps) => {
         category_id: payload.data.category_id,
         difficulty: payload.data.difficulty,
         is_active: payload.data.is_active,
+        image_url: imageParsed.value,
       })
       .select("id")
       .single()
@@ -78,6 +83,14 @@ const NewQuestionPage = async ({ searchParams }: NewQuestionPageProps) => {
       )}
       <form action={createQuestion} className="space-y-3">
         <Input name="question_text" placeholder="Texto de la pregunta" required />
+        <div className="space-y-1">
+          <Input name="image_url" type="text" placeholder="Imagen (opcional): https://… o /signos/ejemplo.png" className="w-full" />
+          <p className="text-xs text-zinc-500">
+            URL pública o ruta en <code className="rounded bg-zinc-100 px-1">public</code> (ej.{" "}
+            <code className="rounded bg-zinc-100 px-1">/signos/pare.png</code>). Subí archivos a Supabase Storage o a{" "}
+            <code className="rounded bg-zinc-100 px-1">public/signos/</code>.
+          </p>
+        </div>
         <Input name="explanation" placeholder="Explicacion" required />
         <select name="category_id" className="h-10 w-full rounded-xl border border-zinc-300 px-3 text-sm" required disabled={!categories?.length}>
           {categories?.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}

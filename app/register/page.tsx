@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { AppPageHeader } from "@/components/app/app-page-header"
 import { redirectIfAuthenticated } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -14,19 +15,33 @@ const RegisterPage = async ({ searchParams }: RegisterPageProps) => {
   const params = await searchParams
 
   return (
-    <Card className="mx-auto max-w-md space-y-4">
-      <h1 className="text-2xl font-semibold">Crear cuenta</h1>
-      <form action="/auth/register" method="post" className="space-y-3">
-        <Input name="fullName" placeholder="Nombre y apellido" required />
-        <Input name="email" type="email" placeholder="Email" required />
-        <Input name="password" type="password" placeholder="Contrasena" minLength={6} required />
-        <Button className="w-full">Registrarme</Button>
-      </form>
-      {params.error && <p className="text-sm text-red-600">{params.error}</p>}
-      <p className="text-sm text-zinc-600">
-        Ya tenes cuenta? <Link href="/login" className="text-blue-600">Ingresar</Link>
-      </p>
-    </Card>
+    <div className="space-y-8">
+      <AppPageHeader eyebrow="Cuenta nueva" title="Crear cuenta" description="Completá tus datos para guardar progreso y preferencias." />
+      <Card className="landing-card-hover mx-auto w-full max-w-md border-white/90 p-6 sm:p-8">
+        <form action="/auth/register" method="post" className="space-y-4">
+          <Input name="fullName" placeholder="Nombre y apellido" required className="rounded-2xl border-zinc-200/90 bg-white/80" />
+          <Input name="email" type="email" placeholder="Email" required className="rounded-2xl border-zinc-200/90 bg-white/80" />
+          <Input
+            name="password"
+            type="password"
+            placeholder="Contraseña (mín. 6 caracteres)"
+            minLength={6}
+            required
+            className="rounded-2xl border-zinc-200/90 bg-white/80"
+          />
+          <Button type="submit" className="mt-2 w-full">
+            Registrarme
+          </Button>
+        </form>
+        {params.error && <p className="text-sm text-red-600">{params.error}</p>}
+        <p className="mt-4 text-center text-sm text-zinc-600">
+          ¿Ya tenés cuenta?{" "}
+          <Link href="/login" className="font-semibold text-[var(--brand-blue)] hover:underline">
+            Ingresar
+          </Link>
+        </p>
+      </Card>
+    </div>
   )
 }
 

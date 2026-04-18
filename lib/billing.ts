@@ -1,8 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
+/** Límites de uso cuando no hay suscripción Premium activa. */
 export const PLAN_LIMITS = {
-  freePracticePerDay: 15,
-  freeExamPerDay: 1,
+  practicePerDayWithoutSubscription: 15,
+  examPerDayWithoutSubscription: 1,
   weakAreasPreview: 2,
   progressCategoriesPreview: 3,
 } as const

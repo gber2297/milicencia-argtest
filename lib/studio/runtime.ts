@@ -15,7 +15,7 @@ export function defaultBranding(partial?: Partial<VideoRuntime["branding"]>): Vi
 
 export function defaultCta(text?: string): VideoRuntime["cta"] {
   return {
-    text: text ?? "Practicá gratis en la app",
+    text: text ?? "Practicá en la app",
     variant: "primary",
   }
 }
@@ -24,7 +24,7 @@ export function defaultFinalCard(partial?: Partial<VideoRuntime["finalCard"]>): 
   return {
     type: partial?.type ?? "image",
     title: partial?.title ?? "Pasá el teórico más rápido",
-    subtitle: partial?.subtitle ?? "Simulacros ilimitados · practicá gratis hoy",
+    subtitle: partial?.subtitle ?? "Simulacros ilimitados · practicá hoy",
     backgroundUrl: partial?.backgroundUrl ?? "",
   }
 }

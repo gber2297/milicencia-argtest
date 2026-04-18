@@ -5,8 +5,14 @@ import { createClient } from "@/lib/supabase/server"
 import { upsertUserPreferences } from "@/lib/user-preferences"
 
 const schema = z.object({
-  goal: z.enum(["approve_fast", "daily_bit", "find_mistakes"]).nullable().optional(),
-  experienceLevel: z.enum(["failed_before", "first_time", "practicing"]).nullable().optional(),
+  goal: z
+    .enum(["primera_licencia", "renovacion", "cambio_categoria", "approve_fast", "daily_bit", "find_mistakes"])
+    .nullable()
+    .optional(),
+  experienceLevel: z
+    .enum(["cero", "algo_se", "canchero", "failed_before", "first_time", "practicing"])
+    .nullable()
+    .optional(),
   weakCategorySlugs: z.array(z.string()).max(12).optional().default([]),
   onboardingCompleted: z.boolean().optional(),
 })

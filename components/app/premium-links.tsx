@@ -1,18 +1,25 @@
 import Link from "next/link"
 
-import { getPremiumCheckoutHref, isExternalCheckoutUrl } from "@/lib/checkout"
+import { getPremiumCheckoutHref, getWeeklyCheckoutHref, isExternalCheckoutUrl } from "@/lib/checkout"
 import { cn } from "@/lib/utils"
 
 const primaryClass =
-  "inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 bg-blue-600 text-white shadow-sm shadow-blue-600/20 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50"
+  "inline-flex h-10 items-center justify-center rounded-2xl px-4 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:ring-offset-2 bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/25 hover:brightness-110 active:translate-y-px disabled:opacity-50"
+
+const primaryAmberClass =
+  "inline-flex h-10 items-center justify-center rounded-2xl px-4 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/40 focus-visible:ring-offset-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md shadow-amber-600/25 hover:brightness-110 active:translate-y-px disabled:opacity-50"
 
 const outlineClass =
-  "inline-flex h-10 items-center justify-center rounded-xl border border-zinc-300/90 bg-white px-4 text-sm font-medium text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/25 focus-visible:ring-offset-2"
+  "inline-flex h-10 items-center justify-center rounded-2xl border border-white/90 bg-white/90 px-4 text-sm font-semibold text-zinc-800 shadow-sm shadow-blue-500/5 backdrop-blur-sm transition hover:border-blue-200/80 hover:bg-blue-50/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/25 focus-visible:ring-offset-2"
 
 interface PremiumCheckoutLinkProps {
   children: React.ReactNode
   className?: string
   appearance?: "text" | "primary" | "outline"
+  /** Solo con appearance primary */
+  primaryTone?: "blue" | "amber"
+  /** Plan semanal → link de suscripción MP; mensual → `NEXT_PUBLIC_MERCADOPAGO_CHECKOUT_URL` o /pricing */
+  subscriptionPlan?: "weekly" | "monthly"
   onNavigate?: () => void
 }
 
@@ -20,13 +27,21 @@ export function PremiumCheckoutLink({
   children,
   className,
   appearance = "text",
+  primaryTone = "blue",
+  subscriptionPlan = "monthly",
   onNavigate,
 }: PremiumCheckoutLinkProps) {
-  const href = getPremiumCheckoutHref()
+  const href = subscriptionPlan === "weekly" ? getWeeklyCheckoutHref() : getPremiumCheckoutHref()
   const external = isExternalCheckoutUrl(href)
 
   const appearanceClass =
-    appearance === "primary" ? primaryClass : appearance === "outline" ? outlineClass : undefined
+    appearance === "primary"
+      ? primaryTone === "amber"
+        ? primaryAmberClass
+        : primaryClass
+      : appearance === "outline"
+        ? outlineClass
+        : undefined
 
   return (
     <Link

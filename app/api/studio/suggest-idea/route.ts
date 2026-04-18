@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   const seed = `${parsed.data.theme ?? ""}-${parsed.data.channel ?? ""}-${Date.now()}`
   const idx = Math.abs(hash(seed)) % IDEAS.length
   const idea = IDEAS[idx]
-  const cta = "Descargá la app y practicá gratis hoy"
+  const cta = "Descargá la app y practicá hoy"
   return NextResponse.json({ idea, cta })
 }
 

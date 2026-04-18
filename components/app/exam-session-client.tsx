@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
 import { PaywallModal } from "@/components/app/paywall-modal"
+import { QuestionFigure } from "@/components/app/question-figure"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -102,7 +103,7 @@ export function ExamSessionClient() {
 
   if (loading) {
     return (
-      <Card className="flex min-h-[220px] flex-col items-center justify-center gap-3 p-8">
+      <Card className="flex min-h-[220px] flex-col items-center justify-center gap-3 border-dashed border-indigo-200/50 bg-gradient-to-br from-violet-50/40 to-white p-8">
         <Loader2 className="size-8 animate-spin text-indigo-600" aria-hidden />
         <p className="text-sm font-medium text-zinc-600">Preparando simulacro…</p>
       </Card>
@@ -114,7 +115,7 @@ export function ExamSessionClient() {
       <>
         <Card className="border-dashed border-zinc-300/90 bg-zinc-50/60 p-6 text-center sm:p-8">
           {blockedByLimit ? (
-            <p className="text-sm font-medium text-zinc-800">Ya usaste tu simulacro gratis de hoy.</p>
+            <p className="text-sm font-medium text-zinc-800">Ya usaste tu simulacro de hoy sin suscripción activa.</p>
           ) : (
             <>
               <p className="text-sm font-medium text-zinc-800">{errorMessage ?? "No hay preguntas para este simulacro."}</p>
@@ -134,7 +135,7 @@ export function ExamSessionClient() {
   const progressPercent = Math.round(((currentIndex + 1) / Math.max(questions.length, 1)) * 100)
 
   return (
-    <Card className="space-y-6 p-5 sm:p-6">
+    <Card className="landing-card-hover space-y-6 overflow-hidden border-indigo-100/60 bg-gradient-to-br from-white via-indigo-50/20 to-violet-50/15 p-5 sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Badge>
           Pregunta {currentIndex + 1} / {questions.length}
@@ -157,6 +158,9 @@ export function ExamSessionClient() {
           />
         </div>
       </div>
+      {currentQuestion.image_url ? (
+        <QuestionFigure src={currentQuestion.image_url} alt={currentQuestion.question_text} />
+      ) : null}
       <h2 className="text-lg font-semibold leading-snug tracking-tight text-zinc-900 sm:text-xl">{currentQuestion.question_text}</h2>
       <div className="space-y-2.5">
         {currentQuestion.question_options.map((option) => (

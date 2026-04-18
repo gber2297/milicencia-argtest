@@ -62,23 +62,24 @@ const ResultsPage = async ({ params }: ResultsPageProps) => {
   }
 
   return (
-    <Card className="overflow-hidden p-0 sm:p-0">
-      <div className="border-b border-zinc-100 bg-gradient-to-br from-slate-50 via-white to-blue-50/40 px-5 py-8 sm:px-8 sm:py-10">
-        <Badge className="mb-4 border-blue-100 bg-white/80">Resultado final</Badge>
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <Card className="landing-card-hover overflow-hidden border-white/90 p-0 shadow-xl shadow-blue-500/10 sm:p-0">
+      <div className="relative border-b border-white/60 bg-gradient-to-br from-sky-100/50 via-white to-violet-100/30 px-5 py-8 sm:px-8 sm:py-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-56 rounded-full bg-cyan-300/25 blur-3xl" aria-hidden />
+        <Badge className="relative mb-4 border-blue-100/80 bg-white/90 font-semibold shadow-sm">Resultado final</Badge>
+        <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-medium text-zinc-500">Puntuacion</p>
-            <p className="mt-1 text-5xl font-bold tracking-tight text-zinc-900 tabular-nums sm:text-6xl">
+            <p className="relative text-sm font-medium text-zinc-500">Puntuación</p>
+            <p className="relative mt-1 text-5xl font-extrabold tracking-tight text-zinc-900 tabular-nums sm:text-6xl">
               {formatPercentage(exam.score_percentage)}
             </p>
             <p className="mt-3 text-sm text-zinc-600">
               Correctas: <span className="font-medium text-zinc-800">{exam.correct_answers}</span> · Incorrectas:{" "}
               <span className="font-medium text-zinc-800">{exam.wrong_answers}</span>
             </p>
-            <p className="mt-4 max-w-lg text-sm font-medium leading-relaxed text-zinc-700">{motivation}</p>
+            <p className="relative mt-4 max-w-lg text-sm font-medium leading-relaxed text-zinc-700">{motivation}</p>
           </div>
           <div
-            className={`flex items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-medium ${
+            className={`relative flex items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold ${
               noMissedCategories
                 ? "border-emerald-200/90 bg-emerald-50/80 text-emerald-900"
                 : "border-amber-200/90 bg-amber-50/80 text-amber-950"
@@ -89,20 +90,20 @@ const ResultsPage = async ({ params }: ResultsPageProps) => {
             ) : (
               <TrendingDown className="size-5 shrink-0" aria-hidden />
             )}
-            {noMissedCategories ? "Sin fallos por categoria" : "Hay areas para reforzar"}
+            {noMissedCategories ? "Sin fallos por categoría" : "Hay áreas para reforzar"}
           </div>
         </div>
       </div>
 
-      <div className="space-y-5 px-5 py-6 sm:px-8 sm:py-8">
+      <div className="space-y-6 bg-white/40 px-5 py-6 sm:px-8 sm:py-8">
         <div>
-          <p className="text-sm font-semibold text-zinc-900">Categorias con mas errores</p>
+          <p className="text-sm font-bold text-zinc-900">Categorías con más errores</p>
           <div className="mt-3 space-y-2">
             {failedCategories.length ? (
               failedCategories.map(([category, count]) => (
                 <div
                   key={category}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/50 px-4 py-3 text-sm"
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-white/90 bg-gradient-to-r from-zinc-50/90 to-white px-4 py-3 text-sm shadow-sm"
                 >
                   <span className="font-medium text-zinc-800">{category}</span>
                   <span className="tabular-nums text-zinc-600">
@@ -130,7 +131,7 @@ const ResultsPage = async ({ params }: ResultsPageProps) => {
         {!premium && (
           <p className="text-center text-xs text-zinc-500">
             Premium desbloquea practica y simulacros ilimitados.{" "}
-            <PremiumCheckoutLink className="font-medium text-blue-700 hover:underline">
+            <PremiumCheckoutLink className="font-semibold text-[var(--brand-blue)] hover:underline">
               Ver planes
             </PremiumCheckoutLink>
           </p>

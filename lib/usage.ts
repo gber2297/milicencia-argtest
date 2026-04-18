@@ -37,13 +37,13 @@ export async function getUsageSummaryForClient(supabase: SupabaseClient, userId:
     streakCount: prefs?.streak_count ?? 0,
     practice: {
       used: practiceUsed,
-      limit: premium ? null : PLAN_LIMITS.freePracticePerDay,
-      remaining: premium ? null : Math.max(0, PLAN_LIMITS.freePracticePerDay - practiceUsed),
+      limit: premium ? null : PLAN_LIMITS.practicePerDayWithoutSubscription,
+      remaining: premium ? null : Math.max(0, PLAN_LIMITS.practicePerDayWithoutSubscription - practiceUsed),
     },
     exam: {
       used: examUsed,
-      limit: premium ? null : PLAN_LIMITS.freeExamPerDay,
-      remaining: premium ? null : Math.max(0, PLAN_LIMITS.freeExamPerDay - examUsed),
+      limit: premium ? null : PLAN_LIMITS.examPerDayWithoutSubscription,
+      remaining: premium ? null : Math.max(0, PLAN_LIMITS.examPerDayWithoutSubscription - examUsed),
     },
   }
 }
@@ -52,7 +52,7 @@ export async function canAnswerPracticeQuestion(supabase: SupabaseClient, userId
   const sub = await getSubscriptionForUser(supabase, userId)
   if (isPremiumSubscription(sub)) return { ok: true as const, reason: null as string | null }
   const usage = await getTodayUsageRow(supabase, userId)
-  if (usage.questions_answered >= PLAN_LIMITS.freePracticePerDay) {
+  if (usage.questions_answered >= PLAN_LIMITS.practicePerDayWithoutSubscription) {
     return { ok: false as const, reason: "LIMIT_PRACTICE" as const }
   }
   return { ok: true as const, reason: null }
@@ -62,7 +62,7 @@ export async function canStartExam(supabase: SupabaseClient, userId: string) {
   const sub = await getSubscriptionForUser(supabase, userId)
   if (isPremiumSubscription(sub)) return { ok: true as const, reason: null as string | null }
   const usage = await getTodayUsageRow(supabase, userId)
-  if (usage.exams_started >= PLAN_LIMITS.freeExamPerDay) {
+  if (usage.exams_started >= PLAN_LIMITS.examPerDayWithoutSubscription) {
     return { ok: false as const, reason: "LIMIT_EXAM" as const }
   }
   return { ok: true as const, reason: null }

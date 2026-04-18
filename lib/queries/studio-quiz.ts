@@ -10,7 +10,7 @@ export async function getRandomQuestionForStudio(): Promise<Question | null> {
   const { data, error } = await supabase
     .from("questions")
     .select(
-      "id, question_text, explanation, difficulty, category_id, categories(*), question_options(id, option_text, is_correct)",
+      "id, question_text, image_url, explanation, difficulty, category_id, categories(*), question_options(id, option_text, is_correct)",
     )
     .eq("is_active", true)
     .limit(300)

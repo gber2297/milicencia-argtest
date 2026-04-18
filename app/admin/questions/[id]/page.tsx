@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { requireAdmin } from "@/lib/auth"
+import { parseQuestionImageUrl } from "@/lib/question-image-url"
 import { createClient } from "@/lib/supabase/server"
 
 interface EditQuestionPageProps {
@@ -48,6 +49,9 @@ const EditQuestionPage = async ({ params, searchParams }: EditQuestionPageProps)
     })
     if (!payload.success) redirect(`/admin/questions/${id}?error=Datos invalidos en la pregunta`)
 
+    const imageParsed = parseQuestionImageUrl(formData.get("image_url"))
+    if (!imageParsed.ok) redirect(`/admin/questions/${id}?error=${encodeURIComponent(imageParsed.error)}`)
+
     const supabase = await createClient()
     const { error: updateError } = await supabase
       .from("questions")
@@ -57,6 +61,7 @@ const EditQuestionPage = async ({ params, searchParams }: EditQuestionPageProps)
         category_id: payload.data.category_id,
         difficulty: payload.data.difficulty,
         is_active: payload.data.is_active,
+        image_url: imageParsed.value,
       })
       .eq("id", id)
     if (updateError) redirect(`/admin/questions/${id}?error=No se pudo actualizar la pregunta`)
@@ -95,6 +100,18 @@ const EditQuestionPage = async ({ params, searchParams }: EditQuestionPageProps)
       {query.error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{query.error}</p>}
       <form action={updateQuestion} className="space-y-3">
         <Input name="question_text" defaultValue={question.question_text} required />
+        <div className="space-y-1">
+          <Input
+            name="image_url"
+            type="text"
+            defaultValue={(question as { image_url?: string | null }).image_url ?? ""}
+            placeholder="Imagen (opcional): https://… o /signos/ejemplo.png"
+            className="w-full"
+          />
+          <p className="text-xs text-zinc-500">
+            URL pública o ruta bajo <code className="rounded bg-zinc-100 px-1">public</code>.
+          </p>
+        </div>
         <Input name="explanation" defaultValue={question.explanation ?? ""} required />
         <select name="category_id" defaultValue={question.category_id ?? ""} className="h-10 w-full rounded-xl border border-zinc-300 px-3 text-sm">
           {categories?.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}

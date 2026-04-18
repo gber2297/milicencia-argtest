@@ -14,6 +14,8 @@ export interface QuestionOption {
 export interface Question {
   id: string
   question_text: string
+  /** URL https o ruta que empiece en / (archivo en public/) */
+  image_url?: string | null
   explanation: string | null
   difficulty: "easy" | "medium" | "hard"
   category_id: string | null

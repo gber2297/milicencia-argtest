@@ -2,6 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { Zap } from "lucide-react"
 
+import { AppPageHeader } from "@/components/app/app-page-header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { requireUser } from "@/lib/auth"
@@ -15,18 +16,27 @@ const PracticePage = async () => {
   if (!prefs?.onboarding_completed) redirect("/onboarding")
 
   return (
-    <Card className="border-blue-100/80 bg-gradient-to-b from-white to-blue-50/25 p-6 sm:p-8">
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-sm shadow-blue-600/20">
-        <Zap className="size-6" aria-hidden />
-      </div>
-      <h1 className="mt-5 text-2xl font-semibold tracking-tight text-zinc-900">Modo practica</h1>
-      <p className="mt-2 max-w-lg text-sm leading-relaxed text-zinc-600 sm:text-base">
-        Respuesta inmediata con explicacion para aprender mas rapido.
-      </p>
-      <Link href="/practice/session" className="mt-6 inline-block">
-        <Button className="min-w-[200px]">Comenzar ahora</Button>
-      </Link>
-    </Card>
+    <div className="space-y-8">
+      <AppPageHeader
+        eyebrow="Entrenamiento"
+        title="Modo práctica"
+        description="Respuesta inmediata y explicación cuando aplica — para aprender más rápido."
+      />
+      <Card className="landing-card-hover relative overflow-hidden border-blue-200/40 bg-gradient-to-br from-sky-50/80 via-white to-blue-50/40 p-8 sm:p-10">
+        <div className="pointer-events-none absolute -right-8 -top-8 size-36 rounded-full bg-cyan-300/40 blur-3xl" aria-hidden />
+        <div className="relative">
+          <div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/30">
+            <Zap className="size-7" aria-hidden />
+          </div>
+          <p className="mt-6 text-sm leading-relaxed text-zinc-600 sm:text-base">
+            Elegí tema o dejá que el sistema mezcle preguntas. Ideal para corregir sobre la marcha.
+          </p>
+          <Link href="/practice/session" className="mt-8 inline-block">
+            <Button className="min-w-[220px] px-8">Comenzar ahora</Button>
+          </Link>
+        </div>
+      </Card>
+    </div>
   )
 }
 

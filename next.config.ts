@@ -1,6 +1,34 @@
 import type { NextConfig } from "next"
 
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? (() => {
+      try {
+        return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL!).hostname
+      } catch {
+        return null
+      }
+    })()
+  : null
+
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.screensdesign.com",
+        pathname: "/gasset/**",
+      },
+      ...(supabaseHost
+        ? [
+            {
+              protocol: "https" as const,
+              hostname: supabaseHost,
+              pathname: "/storage/v1/object/public/**",
+            },
+          ]
+        : []),
+    ],
+  },
   transpilePackages: ["remotion", "@remotion/player"],
   /**
    * edge-tts-universal → isomorphic-ws → `ws`. Si Webpack/Turbopack empaqueta `ws`,

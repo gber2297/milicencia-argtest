@@ -12,7 +12,7 @@ export async function getRandomPracticeQuestion(categoryId?: string) {
   const query = supabase
     .from("questions")
     .select(
-      "id, question_text, explanation, difficulty, category_id, categories(*), question_options(*)",
+      "id, question_text, image_url, explanation, difficulty, category_id, categories(*), question_options(*)",
     )
     .eq("is_active", true)
 
@@ -29,7 +29,7 @@ export async function getExamQuestions(total = 30) {
   const { data } = await supabase
     .from("questions")
     .select(
-      "id, question_text, explanation, difficulty, category_id, categories(*), question_options(*)",
+      "id, question_text, image_url, explanation, difficulty, category_id, categories(*), question_options(*)",
     )
     .eq("is_active", true)
     .limit(300)

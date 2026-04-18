@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { CheckCircle2, Loader2, XCircle } from "lucide-react"
 
 import { PaywallModal, type PaywallReason } from "@/components/app/paywall-modal"
+import { QuestionFigure } from "@/components/app/question-figure"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -135,7 +136,7 @@ export function PracticeSessionClient({
 
   if (loading) {
     return (
-      <Card className="flex min-h-[200px] flex-col items-center justify-center gap-3 p-8">
+      <Card className="flex min-h-[200px] flex-col items-center justify-center gap-3 border-dashed border-blue-200/50 bg-gradient-to-br from-blue-50/40 to-white p-8">
         <Loader2 className="size-8 animate-spin text-blue-600" aria-hidden />
         <p className="text-sm font-medium text-zinc-600">Cargando pregunta…</p>
       </Card>
@@ -145,12 +146,12 @@ export function PracticeSessionClient({
   if (!question) {
     return (
       <>
-        <Card className="border-dashed border-zinc-300/90 bg-zinc-50/60 p-6 sm:p-8">
+        <Card className="border-dashed border-blue-200/60 bg-gradient-to-br from-sky-50/50 to-white p-6 sm:p-8">
           <div className="mx-auto max-w-md text-center">
             {initialPracticeBlocked ? (
               <>
-                <p className="text-sm font-medium text-zinc-800">Llegaste al limite de practica gratis hoy.</p>
-                <p className="mt-2 text-sm text-zinc-500">Podés seguir mañana o pasarte a Premium para practica ilimitada.</p>
+                <p className="text-sm font-medium text-zinc-800">Llegaste al límite de práctica de hoy sin suscripción activa.</p>
+                <p className="mt-2 text-sm text-zinc-500">Podés seguir mañana o suscribirte para práctica ilimitada.</p>
               </>
             ) : (
               <>
@@ -175,14 +176,14 @@ export function PracticeSessionClient({
 
   return (
     <>
-      <Card className="space-y-6 p-5 sm:p-6">
+      <Card className="landing-card-hover space-y-6 overflow-hidden border-blue-100/60 bg-gradient-to-br from-white via-blue-50/20 to-violet-50/15 p-5 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Badge className="border-zinc-200 bg-zinc-100/90 font-medium text-zinc-700">Respondidas: {answeredCount}</Badge>
           {usage?.isPremium === false && (
-            <p className="text-xs text-zinc-500">
-              Plan gratis ·{" "}
-              <span className="font-medium text-zinc-700">{remainingText ?? "Practicá con limite diario"}</span>
-              <span className="text-zinc-400"> · Con premium: ilimitado</span>
+                <p className="text-xs text-zinc-500">
+              Sin suscripción ·{" "}
+              <span className="font-medium text-zinc-700">{remainingText ?? "Practicá con límite diario"}</span>
+              <span className="text-zinc-400"> · Con Premium: ilimitado</span>
             </p>
           )}
         </div>
@@ -190,6 +191,9 @@ export function PracticeSessionClient({
           <Badge>{categoryName ?? "General"}</Badge>
           <Badge className="border-zinc-200 bg-zinc-100/90 font-medium capitalize text-zinc-700">{question.difficulty}</Badge>
         </div>
+        {question.image_url ? (
+          <QuestionFigure src={question.image_url} alt={question.question_text} />
+        ) : null}
         <h2 className="text-lg font-semibold leading-snug tracking-tight text-zinc-900 sm:text-xl">{question.question_text}</h2>
         <div className="space-y-2.5">
           {question.question_options.map((option) => (
