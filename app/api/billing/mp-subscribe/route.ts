@@ -77,9 +77,11 @@ async function postMpSubscribe(request: Request) {
   })
 
   if (!created.ok) {
+    console.error("[mp-subscribe] MP preapproval rechazado", created.error, created.raw)
+    // 422: no usar 502 aquí — el navegador y el proxy lo confunden con "Bad Gateway" de infraestructura.
     return NextResponse.json(
       { error: created.error, details: created.raw },
-      { status: 502 },
+      { status: 422 },
     )
   }
 
@@ -87,7 +89,7 @@ async function postMpSubscribe(request: Request) {
   try {
     redirectTo = new URL(created.init_point).href
   } catch {
-    return NextResponse.json({ error: "init_point de Mercado Pago inválido" }, { status: 502 })
+    return NextResponse.json({ error: "init_point de Mercado Pago inválido" }, { status: 422 })
   }
 
   const { error } = await supabase

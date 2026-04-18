@@ -6,6 +6,8 @@ import type { MercadoPagoPlanKey } from "@/lib/mercadopago/config"
 
 const MP_API = "https://api.mercadopago.com"
 
+const MP_FETCH_MS = 45_000
+
 export interface MpPreapprovalResponse {
   id?: string
   status?: string
@@ -31,21 +33,28 @@ export async function createPendingPreapproval(input: {
    * Con `preapproval_plan_id`, la API suele exigir `card_token_id` + `authorized` (Bricks en tu sitio).
    * @see https://www.mercadopago.com.ar/developers/es/docs/subscriptions/integration-configuration/subscription-no-associated-plan
    */
-  const res = await fetch(`${MP_API}/preapproval`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      reason: input.reason,
-      external_reference: input.externalReference,
-      payer_email: input.payerEmail,
-      back_url: input.backUrl,
-      status: "pending",
-      auto_recurring: getAutoRecurringForPlan(input.planKey, input.payerEmail),
-    }),
-  })
+  let res: Response
+  try {
+    res = await fetch(`${MP_API}/preapproval`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        reason: input.reason,
+        external_reference: input.externalReference,
+        payer_email: input.payerEmail,
+        back_url: input.backUrl,
+        status: "pending",
+        auto_recurring: getAutoRecurringForPlan(input.planKey, input.payerEmail),
+      }),
+      signal: AbortSignal.timeout(MP_FETCH_MS),
+    })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "fetch falló"
+    return { ok: false, error: `Mercado Pago (red): ${msg}`, raw: undefined }
+  }
 
   const data = (await res.json().catch(() => ({}))) as MpPreapprovalResponse
 
