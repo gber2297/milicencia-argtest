@@ -18,8 +18,8 @@ function readIdFromMetadata(meta: Record<string, unknown> | null): string | null
 /** Mercado Pago envía el cuerpo en JSON y a veces datos en query (IPN legacy). */
 export async function POST(request: Request) {
   const url = new URL(request.url)
-  // Visible en logs del contenedor (Docker/EasyPanel); Next no registra cada request por defecto.
-  console.info("[mp-webhook] POST", url.pathname + url.search)
+  // stderr suele verse mejor en Docker/EasyPanel que console.info
+  console.error("[mp-webhook] POST entrante", url.pathname + url.search)
   let topic =
     url.searchParams.get("topic") ||
     url.searchParams.get("type") ||
@@ -50,6 +50,11 @@ export async function POST(request: Request) {
   }
 
   if (!resourceId) {
+    console.error("[mp-webhook] sin resource id (payload no reconocido)", {
+      topic,
+      bodyKeys: Object.keys(body),
+      queryKeys: [...url.searchParams.keys()],
+    })
     return NextResponse.json({ ok: true, note: "no-resource-id" })
   }
 
@@ -63,8 +68,10 @@ export async function POST(request: Request) {
     action.includes("subscription_preapproval")
 
   if (looksPreapproval) {
+    console.error("[mp-webhook] sync preapproval", resourceId, { topic: t })
     const r = await syncSubscriptionFromPreapprovalId(resourceId)
-    if (!r.ok) console.error("[mp-webhook] preapproval sync", r.error)
+    if (!r.ok) console.error("[mp-webhook] preapproval sync falló", r.error)
+    else console.error("[mp-webhook] preapproval sync ok", r)
     return NextResponse.json({ ok: true })
   }
 
@@ -82,12 +89,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true })
   }
 
+  console.error("[mp-webhook] evento ignorado (topic no matchea)", { topic: t, resourceId })
   return NextResponse.json({ ok: true, note: "ignored" })
 }
 
 /** Algunos chequeos de MP usan GET. */
 export async function GET(request: Request) {
   const url = new URL(request.url)
-  console.info("[mp-webhook] GET", url.pathname + url.search)
+  console.error("[mp-webhook] GET", url.pathname + url.search)
   return NextResponse.json({ ok: true })
 }
